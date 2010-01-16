@@ -1,22 +1,34 @@
 #include "settings.h"
 #include "display.h"
-#include "context.h"
+#include "dminion.h"
 
 namespace dminion {
 
-DminionContext::DminionContext() {
-  Settings* settings = GetSettings();
+Dminion::Dminion() {
+  settings = new Settings();
+  display = new Display();
 
+  SetSettings(settings);
+}
+
+Dminion::~Dminion() {
+  delete display;
+  delete settings;
+}
+
+void Dminion::Init() {
   settings->Set(L"window.width", globals::kScreenWidth);
   settings->Set(L"window.height", globals::kScreenHeight);
   settings->Set(L"window.depth", globals::kScreenDepth);
 
-  display = new Display();
   display->Init();
 }
 
-void DminionContext::Run() {
+void Dminion::Run() {
   bool done = false;
+
+  Init();
+
   while (!done) {
     done = true;
   }

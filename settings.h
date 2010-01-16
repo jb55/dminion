@@ -31,6 +31,7 @@ public:
 
 };
 
+void SetSettings(Settings* settings);
 Settings* GetSettings();
 
 }

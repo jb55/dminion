@@ -1,16 +1,9 @@
-#include "SDL/SDL.h"
-#include <stdint.h>
+#include "dminion.h"
 
-const int kScreenWidth = 640;
-const int kScreenHeight = 480;
-const int kScreenDepth = 32;
+using namespace dminion;
 
-int main(void)
-{
-  SDL_Surface *screen;
+int main(void) {
+  Dminion game;
 
-  SDL_Init(SDL_INIT_VIDEO);
-  screen = SDL_SetVideoMode(kScreenWidth, kScreenHeight, kScreenDepth, 
-                            SDL_HWSURFACE);
-  SDL_Flip(screen);
+  game.Run();
 }

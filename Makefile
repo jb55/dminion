@@ -7,19 +7,21 @@ LIBS = -lSDL
 CFILES = \
   const.cc \
   main.cc \
-  context.cc \
+  dminion.cc \
   display.cc \
   settings.cc \
+  platform.cc \
 
 HEADERS = \
   player.h \
-  context.h \
+  dminion.h \
   display.h \
   settings.h \
   types.h \
   const.h \
+  platform.h \
 
 all: dminionbin
 
 dminionbin: $(CFILES) $(HEADERS)
-	$(CC) $(LDFLAGS) -o dminion $^ $(LIBS) $(INCLUDES)
+	$(CC) $(LDFLAGS) -o $(EXEC) $^ $(LIBS) $(INCLUDES)

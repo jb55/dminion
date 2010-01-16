@@ -4,7 +4,7 @@
 
 namespace dminion {
 
-static Settings* gpSettings = NULL;
+static Settings* gpSettings;
 
 Settings::~Settings() {
   std::cout << "~Settings()" << std::endl;
@@ -49,10 +49,11 @@ string Settings::GetString(const string& key) {
   return doGet<string>(key);
 }
 
+void SetSettings(Settings* settings) {
+  gpSettings = settings;
+}
+
 Settings* GetSettings() {
-  if (!gpSettings) {
-    gpSettings = new Settings();
-  }
   return gpSettings;
 }
 
