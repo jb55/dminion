@@ -1,7 +1,7 @@
 #ifndef DMINION_PLAYER_H_
 #define DMINION_PLAYER_H_
 
-#include <list>
+#include <vector>
 
 namespace dminion {
 

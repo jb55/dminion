@@ -1,6 +1,5 @@
 #include "SDL/SDL.h"
 #include <stdint.h>
-#include <unistd.h>
 
 const int kScreenWidth = 640;
 const int kScreenHeight = 480;
@@ -14,5 +13,4 @@ int main(void)
   screen = SDL_SetVideoMode(kScreenWidth, kScreenHeight, kScreenDepth, 
                             SDL_HWSURFACE);
   SDL_Flip(screen);
-  usleep(5000000);
 }

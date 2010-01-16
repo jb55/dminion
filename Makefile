@@ -4,5 +4,22 @@ LDFLAGS = -g
 INCLUDES = -ISDL
 LIBS = -lSDL
 
-dminion: main.cc
-	$(CC) $(LDFLAGS) -o $@ $^ $(LIBS) $(INCLUDES)
+CFILES = \
+  const.cc \
+  main.cc \
+  context.cc \
+  display.cc \
+  settings.cc \
+
+HEADERS = \
+  player.h \
+  context.h \
+  display.h \
+  settings.h \
+  types.h \
+  const.h \
+
+all: dminionbin
+
+dminionbin: $(CFILES) $(HEADERS)
+	$(CC) $(LDFLAGS) -o dminion $^ $(LIBS) $(INCLUDES)

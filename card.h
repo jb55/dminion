@@ -1,3 +1,5 @@
+#ifndef _DMINION_CARD_H_
+#define _DMINION_CARD_H_
 
 namespace dminion {
 
@@ -19,3 +21,5 @@ public:
 };
 
 }
+
+#endif // _DMINION_CARD_H_
