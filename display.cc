@@ -1,6 +1,7 @@
 #include "display.h"
 #include "settings.h"
-#include <iostream>
+#include "SDL/SDL.h"
+#include "SDL/SDL_ttf.h"
 
 namespace dminion {
 
@@ -12,13 +13,17 @@ void Display::Init() {
   const int depth = settings->GetInt(L"window.depth");
 
   SDL_Init(SDL_INIT_VIDEO);
-  surface = SDL_SetVideoMode(width, height, depth, SDL_HWSURFACE);
+  screen = SDL_SetVideoMode(width, height, depth, SDL_HWSURFACE);
 
   initialized = true;
 }
 
 void Display::Flip() {
-  SDL_Flip(surface);
+  SDL_Flip(screen);
+}
+
+void Display::DrawText(const string& text, const Vec2& pos) {
+  
 }
 
 Display::Display() : initialized(false) {

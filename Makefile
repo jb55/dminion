@@ -1,27 +1,44 @@
 EXEC = dminion
 CC = g++
-LDFLAGS = -g
+CFLAGS = -g
+OPT = -O3
 INCLUDES = -ISDL
-LIBS = -lSDL
+LIBS = -lSDL -lSDL_ttf
+OBJDIR = obj
+SRCDIR = .
 
-CFILES = \
-  const.cc \
-  main.cc \
-  dminion.cc \
-  display.cc \
-  settings.cc \
-  platform.cc \
+OBJS= \
+  $(OBJDIR)/main.o \
+  $(OBJDIR)/settings.o \
+  $(OBJDIR)/const.o \
+  $(OBJDIR)/display.o \
+  $(OBJDIR)/platform.o \
+  $(OBJDIR)/dminion.o \
+  $(OBJDIR)/font.o
 
-HEADERS = \
-  player.h \
-  dminion.h \
-  display.h \
-  settings.h \
-  types.h \
-  const.h \
-  platform.h \
+DBGOBJS= \
+  $(OBJDIR)/main.dbg.o \
+  $(OBJDIR)/settings.dbg.o \
+  $(OBJDIR)/const.dbg.o \
+  $(OBJDIR)/display.dbg.o \
+  $(OBJDIR)/platform.dbg.o \
+  $(OBJDIR)/dminion.dbg.o \
+  $(OBJDIR)/font.dbg.o
 
-all: dminionbin
+all: debug
 
-dminionbin: $(CFILES) $(HEADERS)
-	$(CC) $(LDFLAGS) -o $(EXEC) $^ $(LIBS) $(INCLUDES)
+clean:
+	rm -f $(OBJDIR)/*.o
+	rm -f $(EXEC) $(DBGEXEC)
+
+release: $(OBJS)
+	$(CC) $(OPT) -o $(EXEC) $^ $(LIBS) $(INCLUDES)
+	
+debug: $(DBGOBJS)
+	$(CC) $(CFLAGS) -o $(EXEC) $^ $(LIBS) $(INCLUDES)
+
+$(OBJDIR)/%.dbg.o: $(SRCDIR)/%.cc
+	$(CC) $(CFLAGS) -c -o $@ $?
+
+$(OBJDIR)/%.o: $(SRCDIR)/%.cc
+	$(CC) $(OPT) -c -o $@ $?
