@@ -4,11 +4,21 @@
 #include "SDL/SDL_ttf.h"
 
 namespace dminion {
-namespace util {
+namespace font {
 
-TTF_Font* LoadFont(const string& file, int ptSize);
+enum FontQuality {
+  kSolid,
+  kShaded,
+  kBlended
+};
 
-}
-}
+SDL_Surface* DrawTextToSurface(TTF_Font* font, const Color& fgColor,
+                               const Color& bgColor, const string& text,
+                               FontQuality quality);
+
+TTF_Font* Load(const char* file, int ptSize);
+
+} // namespace font
+} // namespace dminion
 
 #endif // _DMINION_FONT_

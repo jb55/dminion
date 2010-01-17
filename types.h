@@ -1,12 +1,21 @@
 #ifndef _DMINION_TYPES_H_
 #define _DMINION_TYPES_H_
 
+#if __STDC_VERSION__ >= 199901L
+#include <stdint.h>
+#else
+typedef unsigned short uint16_t;
+#endif
+
 #include <string>
 
 namespace dminion {
 
 typedef std::wstring string;
 
+//
+// Vec2
+//
 struct Vec2
 {
   float x, y;
@@ -24,6 +33,17 @@ struct Vec2
   }
 };
 
-}
+//
+// Color
+//
+struct Color
+{
+  char r, g, b, a;
+
+  Color(char _r, char _g, char _b, char _a) : r(_r), g(_g), b(_b), a(_a) {}
+  Color(char _r, char _g, char _b) : r(_r), g(_g), b(_b), a(255) {}
+};
+
+} // namespace dminion
 
 #endif // _DMINION_TYPES_H_

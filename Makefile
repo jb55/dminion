@@ -14,7 +14,9 @@ OBJS= \
   $(OBJDIR)/display.o \
   $(OBJDIR)/platform.o \
   $(OBJDIR)/dminion.o \
-  $(OBJDIR)/font.o
+  $(OBJDIR)/font.o \
+  $(OBJDIR)/util.o \
+  $(OBJDIR)/resource.o
 
 DBGOBJS= \
   $(OBJDIR)/main.dbg.o \
@@ -23,7 +25,9 @@ DBGOBJS= \
   $(OBJDIR)/display.dbg.o \
   $(OBJDIR)/platform.dbg.o \
   $(OBJDIR)/dminion.dbg.o \
-  $(OBJDIR)/font.dbg.o
+  $(OBJDIR)/font.dbg.o \
+  $(OBJDIR)/util.dbg.o \
+  $(OBJDIR)/resource.dbg.o
 
 all: debug
 

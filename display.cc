@@ -1,5 +1,7 @@
 #include "display.h"
 #include "settings.h"
+#include "resource.h"
+#include "font.h"
 #include "SDL/SDL.h"
 #include "SDL/SDL_ttf.h"
 
@@ -23,7 +25,22 @@ void Display::Flip() {
 }
 
 void Display::DrawText(const string& text, const Vec2& pos) {
-  
+  TTF_Font* font;
+  SDL_Surface* renderedText;
+  const string kFont = L"/usr/share/fonts/truetype/freefont/FreeSerif.ttf";
+  font = resource::GetFont(kFont, 10);
+
+  const Color white(255, 255, 255);
+  const Color black(0, 0, 0);
+  renderedText = font::DrawTextToSurface(
+                 font, white, black, text, font::kBlended);
+
+  SDL_Rect dstRect = {
+    (short)pos.x, (short)pos.y,
+    renderedText->w, renderedText->h
+  };
+
+  SDL_BlitSurface(renderedText, NULL, screen, &dstRect);
 }
 
 Display::Display() : initialized(false) {
