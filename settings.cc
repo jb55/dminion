@@ -20,7 +20,7 @@ void Settings::doSet(const string& key, T val) {
 template <typename T>
 T Settings::doGet(const string& key) {
   T val;
-  std::wstringstream os;
+  std::wstringstream os(settingsMap[key]);
   os >> val;
   return val;
 }

@@ -1,5 +1,5 @@
 EXEC = dminion
-CC = g++ -O
+CC = g++
 LDFLAGS = -g
 INCLUDES = -ISDL
 LIBS = -lSDL

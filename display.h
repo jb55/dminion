@@ -16,6 +16,7 @@ public:
   ~Display();
   
   void Init();
+  void Flip();
 
 };
 

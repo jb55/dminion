@@ -1,6 +1,8 @@
 #include "settings.h"
 #include "display.h"
 #include "dminion.h"
+#include "platform.h"
+#include <iostream>
 
 namespace dminion {
 
@@ -29,9 +31,12 @@ void Dminion::Run() {
 
   Init();
 
+  display->Flip();
   while (!done) {
+    util::sleep(5);
     done = true;
   }
+
 }
 
 }
