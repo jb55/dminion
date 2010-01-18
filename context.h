@@ -2,7 +2,8 @@
 #define _DMINION_CONTEXT_H_
 
 #include "player.h"
-#include <list>
+#include "card.h"
+#include <vector>
 
 namespace dminion {
 namespace game {
@@ -15,18 +16,22 @@ enum State {
 
 class Context
 {
+  Cards trash;
+  Cards draft;
+
   int playerTurn;
   State state;
-  std::list<Player> players;
+  std::vector<Player*> players;
 
 public:
-
   Context();
+
+  void StartGame();
 
   int   GetPlayerTurn() const;
   State GetGameState() const; 
   
-  Player& GetPlayer(int num);
+  Player* GetPlayer(int num);
 };
 
 } // namespace game

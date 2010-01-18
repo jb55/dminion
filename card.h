@@ -1,6 +1,8 @@
 #ifndef _DMINION_CARD_H_
 #define _DMINION_CARD_H_
 
+#include <deque>
+
 namespace dminion {
 namespace game {
 
@@ -10,7 +12,7 @@ enum CardType
   kVictory, //< Estate, Duchy, Province
   kKingdom, //< Action cards
   kCurse //< -1 Victory point
-}
+};
 
 class Card
 {
@@ -19,6 +21,19 @@ class Card
 public:
 
   void SetCardType(CardType type);
+};
+
+class Cards
+{
+  std::deque<Card*> cards;
+
+public:
+  Card* Pop();
+  Card* PopBottom();
+
+  void Push(Card* card);
+  void PushBottom(Card* card);
+  void Shuffle();
 };
 
 } // namespace game

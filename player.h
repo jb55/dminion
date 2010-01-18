@@ -10,13 +10,13 @@ class Card;
 
 class Player
 {
-  std::vector<Card*> hand;
-  std::vector<Card*> graveyard;
-  std::vector<Card*> deck;
+  Cards hand;
+  Cards graveyard;
+  Cards deck;
 
 public:
 
-
+  
 };
 
 } // namespace game
