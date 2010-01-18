@@ -8,7 +8,7 @@ namespace font {
 TTF_Font* Load(const string& file, int ptSize) {
   TTF_Font* tmpFont;
   const size_t size = file.size();
-  char* cFile = new char[size];
+  char* cFile = new char[size+1];
   cFile = util::WideToChar(file.c_str(), cFile, size);
 
   tmpFont = TTF_OpenFont(cFile, ptSize);
@@ -32,7 +32,7 @@ SDL_Surface* DrawTextToSurface(TTF_Font* font, const Color& fgColor,
   util::ColorToSDL(bgColor, &fontBgColor);
 
   size_t size = text.size();
-  uint16_t* shortBuf = new uint16_t[size];
+  uint16_t* shortBuf = new uint16_t[size+1];
   uint16_t* u16Text;
   u16Text = util::WideToU16(text.c_str(), shortBuf, size);
 

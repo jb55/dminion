@@ -2,6 +2,7 @@
 #include "display.h"
 #include "dminion.h"
 #include "platform.h"
+#include "SDL/SDL.h"
 #include <iostream>
 
 namespace dminion {
@@ -28,17 +29,27 @@ void Dminion::Init() {
 
 void Dminion::Run() {
   bool done = false;
+  SDL_Event event;
 
   Init();
 
   display->DrawText(L"Dminion: Dominion Card Game", Vec2(20, 20));
-  display->DrawText(L"Online", Vec2(20, 20));
+  display->DrawText(L"Online", Vec2(20, 60));
 
   display->Flip();
 
   while (!done) {
-    util::sleep(5);
-    done = true;
+    SDL_WaitEvent(&event);
+
+    switch (event.type) {
+    case SDL_KEYDOWN:
+      std::wcout << L"The " << SDL_GetKeyName(event.key.keysym.sym)
+                 << L" key was pressed!" << std::endl;
+      break;
+    case SDL_QUIT:
+      done = true;
+      break;
+    }
   }
 
 }
