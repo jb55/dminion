@@ -31,7 +31,11 @@ void Dminion::Run() {
 
   Init();
 
+  display->DrawText(L"Dminion: Dominion Card Game", Vec2(20, 20));
+  display->DrawText(L"Online", Vec2(20, 20));
+
   display->Flip();
+
   while (!done) {
     util::sleep(5);
     done = true;

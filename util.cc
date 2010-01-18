@@ -1,6 +1,7 @@
+#include <stdlib.h>
 #include "util.h"
 #include "SDL/SDL.h"
-#include "types.h"
+#include "types.h" 
 
 namespace dminion {
 namespace util {
@@ -27,7 +28,9 @@ uint16_t* WideToU16(const wchar_t* wide,
 }
 
 char* WideToChar(const wchar_t* wide, char* ch, size_t size) {
-	
+	wcstombs(ch, wide, size);
+  ch[size] = '\0';
+	return ch;
 }
 
 } // namespace util

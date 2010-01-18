@@ -14,6 +14,8 @@ void Display::Init() {
   const int height = settings->GetInt(L"window.height");
   const int depth = settings->GetInt(L"window.depth");
 
+  TTF_Init();
+
   SDL_Init(SDL_INIT_VIDEO);
   screen = SDL_SetVideoMode(width, height, depth, SDL_HWSURFACE);
 
@@ -28,7 +30,7 @@ void Display::DrawText(const string& text, const Vec2& pos) {
   TTF_Font* font;
   SDL_Surface* renderedText;
   const string kFont = L"/usr/share/fonts/truetype/freefont/FreeSerif.ttf";
-  font = resource::GetFont(kFont, 10);
+  font = resource::GetFont(kFont, 32);
 
   const Color white(255, 255, 255);
   const Color black(0, 0, 0);
@@ -41,6 +43,7 @@ void Display::DrawText(const string& text, const Vec2& pos) {
   };
 
   SDL_BlitSurface(renderedText, NULL, screen, &dstRect);
+  SDL_FreeSurface(renderedText);
 }
 
 Display::Display() : initialized(false) {

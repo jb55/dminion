@@ -5,13 +5,19 @@
 namespace dminion {
 namespace font {
 
-TTF_Font* Load(const char* file, int ptSize) {
+TTF_Font* Load(const string& file, int ptSize) {
   TTF_Font* tmpFont;
-  tmpFont = TTF_OpenFont(file, ptSize);
+  const size_t size = file.size();
+  char* cFile = new char[size];
+  cFile = util::WideToChar(file.c_str(), cFile, size);
+
+  tmpFont = TTF_OpenFont(cFile, ptSize);
   if (tmpFont == NULL) {
     std::wcout << L"Unable to load font: " 
                << file << L" " << TTF_GetError() << std::endl;
   }
+
+  delete[] cFile;
   return tmpFont;
 }
 

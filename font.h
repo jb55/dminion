@@ -16,7 +16,7 @@ SDL_Surface* DrawTextToSurface(TTF_Font* font, const Color& fgColor,
                                const Color& bgColor, const string& text,
                                FontQuality quality);
 
-TTF_Font* Load(const char* file, int ptSize);
+TTF_Font* Load(const string& file, int ptSize);
 
 } // namespace font
 } // namespace dminion

@@ -1,6 +1,7 @@
 #include "resource.h"
 #include "types.h"
 #include "font.h"
+#include "util.h"
 #include <map>
 
 namespace dminion {
@@ -33,6 +34,7 @@ TTF_Font* GetFont(const string& name, int ptSize) {
 
 	// Font not found in cache, load it
 	TTF_Font* font = font::Load(name, ptSize);
+
 	FontKey key = { name, ptSize };
 	fontResources[key] = font;
 
