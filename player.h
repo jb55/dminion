@@ -4,6 +4,7 @@
 #include <vector>
 
 namespace dminion {
+namespace game {
 
 class Card;
 
@@ -18,6 +19,7 @@ public:
 
 };
 
-}
+} // namespace game
+} // namespace dminion
 
-#endif
+#endif // DMINION_PLAYER_H_
