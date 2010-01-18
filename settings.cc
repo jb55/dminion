@@ -7,7 +7,7 @@ namespace dminion {
 static Settings* gpSettings;
 
 Settings::~Settings() {
-  std::cout << "~Settings()" << std::endl;
+  std::wcout << L"~Settings()" << std::endl;
 }
 
 template <typename T>
