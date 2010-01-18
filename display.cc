@@ -10,26 +10,30 @@ namespace dminion {
 void Display::Init() {
   Settings* settings = GetSettings();
 
-  const int width = settings->GetInt(L"window.width");
-  const int height = settings->GetInt(L"window.height");
-  const int depth = settings->GetInt(L"window.depth");
+  const int width = settings->GetInt("window.width");
+  const int height = settings->GetInt("window.height");
+  const int depth = settings->GetInt("window.depth");
 
+#ifndef NORENDER
   TTF_Init();
 
   SDL_Init(SDL_INIT_VIDEO);
   screen = SDL_SetVideoMode(width, height, depth, SDL_HWSURFACE);
+#endif
 
   initialized = true;
 }
 
 void Display::Flip() {
+#ifndef NORENDER
   SDL_Flip(screen);
+#endif
 }
 
 void Display::DrawText(const string& text, const Vec2& pos) {
   TTF_Font* font;
   SDL_Surface* renderedText;
-  const string kFont = L"/usr/share/fonts/truetype/freefont/FreeSerif.ttf";
+  const string kFont = "/usr/share/fonts/truetype/freefont/FreeSerif.ttf";
   font = resource::GetFont(kFont, 32);
 
   const Color white(255, 255, 255);

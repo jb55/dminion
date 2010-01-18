@@ -1,12 +1,11 @@
 #ifndef DMINION_PLAYER_H_
 #define DMINION_PLAYER_H_
 
+#include "card.h"
 #include <vector>
 
 namespace dminion {
 namespace game {
-
-class Card;
 
 class Player
 {

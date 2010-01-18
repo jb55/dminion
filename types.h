@@ -11,7 +11,7 @@ typedef unsigned short uint16_t;
 
 namespace dminion {
 
-typedef std::wstring string;
+typedef std::string string;
 
 //
 // Vec2

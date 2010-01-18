@@ -10,15 +10,11 @@ namespace resource {
 
 template <typename T>
 struct ResourceEntry {
-  ResourceEntry(const string& _name, T& _data) : name(_name), data(_data) {}
+  ResourceEntry(const string& _name, T& _data, int _id=0) 
+    : name(_name), data(_data), id(_id) {}
   string name;
+  int id; // some identifier used when matching
   T data;
-};
-
-struct FontEntry : ResourceEntry<TTF_Font*> {
-  FontEntry(const string& _name, TTF_Font*& _data, int _ptSize) 
-    : ResourceEntry<TTF_Font*>(_name, _data), ptSize(_ptSize) {}
-  int ptSize;
 };
 
 template <typename T>
@@ -26,18 +22,20 @@ struct Resource {
   typedef std::vector<ResourceEntry<T> > Type;
 };
 
-typedef std::vector<FontEntry> FontResource;
+typedef ResourceEntry<TTF_Font*> FontEntry;
+typedef ResourceEntry<game::Card*> CardEntry;
+typedef Resource<TTF_Font*>::Type FontResource;
 typedef Resource<game::Card*>::Type CardResource;
 
 static FontResource fontResources;
 static CardResource cardResources;
 
 template <typename T>
-T getResourceByName(const string& name, 
+T getResourceByName(const string& name, int id,
                     const typename Resource<T>::Type& resource) {
   typename Resource<T>::Type::const_iterator it;
   for (it = resource.begin(); it != resource.end(); ++it) {
-    if (it->name == name) {
+    if (it->name == name && it->id == id) {
       return it->data;
     }
   }
@@ -45,26 +43,27 @@ T getResourceByName(const string& name,
 }
 
 TTF_Font* GetFont(const string& name, int ptSize) {
-  const std::vector<FontEntry>& fonts = fontResources;
-  std::vector<FontEntry>::const_iterator it;
+  TTF_Font* font;
+  font = getResourceByName<TTF_Font*>(name, ptSize, fontResources);
+  if (font) return font;
 
-  for (it = fonts.begin(); it != fonts.end(); ++it) {
-    if (it->name == name && it->ptSize == ptSize) {
-      return it->data;
-    }
-  }
-
-  // Font not found in cache, load it
-  TTF_Font* font = font::Load(name, ptSize);
-
+  font = font::Load(name, ptSize);
   FontEntry key(name, font, ptSize);
   fontResources.push_back(key);
 
   return font;
 }
 
+void AddCard(game::Card* card) {
+  CardEntry entry(card->GetName(), card);
+  cardResources.push_back(entry);
+}
+
 game::Card* GetCard(const string& name) {
-  return getResourceByName<game::Card*>(name, cardResources);
+  game::Card* card;
+  card = getResourceByName<game::Card*>(name, 0, cardResources);
+  if (card) return card;
+  return NULL;
 }
 
 

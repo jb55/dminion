@@ -3,6 +3,7 @@
 #include "dminion.h"
 #include "platform.h"
 #include "SDL/SDL.h"
+#include "card.h"
 #include <iostream>
 
 namespace dminion {
@@ -20,9 +21,10 @@ Dminion::~Dminion() {
 }
 
 void Dminion::Init() {
-  settings->Set(L"window.width", globals::kScreenWidth);
-  settings->Set(L"window.height", globals::kScreenHeight);
-  settings->Set(L"window.depth", globals::kScreenDepth);
+  settings->Set("window.width", globals::kScreenWidth);
+  settings->Set("window.height", globals::kScreenHeight);
+  settings->Set("window.depth", globals::kScreenDepth);
+
 
   display->Init();
 }
@@ -31,11 +33,12 @@ void Dminion::Run() {
   bool done = false;
   SDL_Event event;
 
+  LoadCards();
+#ifndef NORENDER
   Init();
 
-  display->DrawText(L"Dminion: Dominion Card Game", Vec2(20, 20));
-  display->DrawText(L"Online", Vec2(20, 60));
-
+  display->DrawText("Dminion: Dominion Card Game", Vec2(20, 20));
+  display->DrawText("Online", Vec2(20, 60));
   display->Flip();
 
   while (!done) {
@@ -43,14 +46,17 @@ void Dminion::Run() {
 
     switch (event.type) {
     case SDL_KEYDOWN:
-      std::wcout << L"The " << SDL_GetKeyName(event.key.keysym.sym)
-                 << L" key was pressed!" << std::endl;
+      std::cout << "The " << SDL_GetKeyName(event.key.keysym.sym)
+                 << " key was pressed!" << std::endl;
       break;
     case SDL_QUIT:
       done = true;
       break;
     }
   }
+#endif
+  
+  
 
 }
 

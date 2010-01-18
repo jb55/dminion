@@ -1,9 +1,10 @@
 EXEC = dminion
 CC = g++
-CFLAGS = -g
-OPT = -O3
+DEF = -DNORENDER
+CFLAGS = -g $(DEF)
+OPT = -O3 
 INCLUDES = -ISDL
-LIBS = -lSDL -lSDL_ttf
+LIBS = -lSDL -lSDL_ttf -lyaml-cpp
 OBJDIR = obj
 SRCDIR = .
 
@@ -16,6 +17,8 @@ OBJS= \
   $(OBJDIR)/dminion.o \
   $(OBJDIR)/font.o \
   $(OBJDIR)/util.o \
+  $(OBJDIR)/card.o \
+  $(OBJDIR)/context.o \
   $(OBJDIR)/resource.o
 
 DBGOBJS= \
@@ -27,6 +30,8 @@ DBGOBJS= \
   $(OBJDIR)/dminion.dbg.o \
   $(OBJDIR)/font.dbg.o \
   $(OBJDIR)/util.dbg.o \
+  $(OBJDIR)/card.dbg.o \
+  $(OBJDIR)/context.dbg.o \
   $(OBJDIR)/resource.dbg.o
 
 all: debug
@@ -42,7 +47,7 @@ debug: $(DBGOBJS)
 	$(CC) $(CFLAGS) -o $(EXEC) $^ $(LIBS) $(INCLUDES)
 
 $(OBJDIR)/%.dbg.o: $(SRCDIR)/%.cc
-	$(CC) $(CFLAGS) -c -o $@ $?
+	$(CC) $(CFLAGS) -c -o $@ $? $(INCLUDES)
 
 $(OBJDIR)/%.o: $(SRCDIR)/%.cc
-	$(CC) $(OPT) -c -o $@ $?
+	$(CC) $(OPT) -c -o $@ $? $(INCLUDES)

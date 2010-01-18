@@ -7,12 +7,12 @@ namespace dminion {
 static Settings* gpSettings;
 
 Settings::~Settings() {
-  std::wcout << L"~Settings()" << std::endl;
+  std::cout << "~Settings()" << std::endl;
 }
 
 template <typename T>
 void Settings::doSet(const string& key, T val) {
-  std::wstringstream os;
+  std::stringstream os;
   os << val;
   settingsMap[key] = os.str();
 }
@@ -20,7 +20,7 @@ void Settings::doSet(const string& key, T val) {
 template <typename T>
 T Settings::doGet(const string& key) {
   T val;
-  std::wstringstream os(settingsMap[key]);
+  std::stringstream os(settingsMap[key]);
   os >> val;
   return val;
 }
