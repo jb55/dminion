@@ -1,7 +1,9 @@
 #include "display.h"
 #include "settings.h"
 #include "resource.h"
+#include "gamecard.h"
 #include "font.h"
+#include "util.h"
 #include "SDL/SDL.h"
 #include "SDL/SDL_ttf.h"
 
@@ -41,13 +43,25 @@ void Display::DrawText(const string& text, const Vec2& pos) {
   renderedText = font::DrawTextToSurface(
                  font, white, black, text, font::kBlended);
 
-  SDL_Rect dstRect = {
-    (short)pos.x, (short)pos.y,
-    renderedText->w, renderedText->h
-  };
+  SDL_Rect dstRect;
+  util::PositionSurface(renderedText, pos, dstRect);
 
   SDL_BlitSurface(renderedText, NULL, screen, &dstRect);
   SDL_FreeSurface(renderedText);
+}
+
+void Display::DrawCard(const game::Card* card, const Vec2& pos) {
+  SDL_Surface* templateCard;
+  static const string kTemplateFile = "img/card_template.png";
+  templateCard = resource::GetImage(kTemplateFile);  
+
+  SDL_Rect dstRect;
+  util::PositionSurface(templateCard, pos, dstRect);
+
+  // Pink is transparent
+  uint32_t maskColor = SDL_MapRGB(templateCard->format, 255, 0, 255);
+  SDL_SetColorKey(templateCard, SDL_SRCCOLORKEY, maskColor);
+  SDL_BlitSurface(templateCard, NULL, screen, &dstRect);
 }
 
 Display::Display() : initialized(false) {

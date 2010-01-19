@@ -25,7 +25,6 @@ void Dminion::Init() {
   settings->Set("window.height", globals::kScreenHeight);
   settings->Set("window.depth", globals::kScreenDepth);
 
-
   display->Init();
 }
 
@@ -33,12 +32,13 @@ void Dminion::Run() {
   bool done = false;
   SDL_Event event;
 
-  LoadCards();
+  card::LoadAll();
 #ifndef NORENDER
   Init();
 
   display->DrawText("Dminion: Dominion Card Game", Vec2(20, 20));
   display->DrawText("Online", Vec2(20, 60));
+  display->DrawCard(NULL, Vec2(20, 60));
   display->Flip();
 
   while (!done) {

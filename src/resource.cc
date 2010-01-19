@@ -3,6 +3,8 @@
 #include "font.h"
 #include "util.h"
 #include "card.h"
+#include "gamecard.h"
+#include "SDL/SDL_image.h"
 #include <vector>
 
 namespace dminion {
@@ -24,11 +26,14 @@ struct Resource {
 
 typedef ResourceEntry<TTF_Font*> FontEntry;
 typedef ResourceEntry<game::Card*> CardEntry;
+typedef ResourceEntry<SDL_Surface*> ImageEntry;
 typedef Resource<TTF_Font*>::Type FontResource;
 typedef Resource<game::Card*>::Type CardResource;
+typedef Resource<SDL_Surface*>::Type ImageResource;
 
 static FontResource fontResources;
 static CardResource cardResources;
+static ImageResource imageResources;
 
 template <typename T>
 T getResourceByName(const string& name, int id,
@@ -52,6 +57,16 @@ TTF_Font* GetFont(const string& name, int ptSize) {
   fontResources.push_back(key);
 
   return font;
+}
+
+SDL_Surface* GetImage(const string& name) {
+  SDL_Surface* image;
+  image = getResourceByName<SDL_Surface*>(name, 0, imageResources);
+  if (image) return image;
+
+  image = IMG_Load(name.c_str());
+  ImageEntry entry(name, image);
+  imageResources.push_back(entry);
 }
 
 void AddCard(game::Card* card) {

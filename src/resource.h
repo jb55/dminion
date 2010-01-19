@@ -9,6 +9,7 @@ namespace game { class Card; }
 namespace resource {
 
 TTF_Font* GetFont(const string& name, int ptSize);
+SDL_Surface* GetImage(const string& name);
 game::Card* GetCard(const string& name);
 void AddCard(game::Card* card);
 

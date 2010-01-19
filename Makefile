@@ -4,7 +4,7 @@ DEF =
 CFLAGS = -g $(DEF)
 OPT = -O3 
 INCLUDES = -ISDL
-LIBS = -lSDL -lSDL_ttf -lyaml-cpp
+LIBS = -lSDL -lSDL_ttf -lSDL_image -lyaml-cpp
 OBJDIR = obj
 SRCDIR = src
 
@@ -18,6 +18,7 @@ OBJS= \
   $(OBJDIR)/font.o \
   $(OBJDIR)/util.o \
   $(OBJDIR)/card.o \
+  $(OBJDIR)/gamecard.o \
   $(OBJDIR)/context.o \
   $(OBJDIR)/resource.o
 
@@ -31,6 +32,7 @@ DBGOBJS= \
   $(OBJDIR)/font.dbg.o \
   $(OBJDIR)/util.dbg.o \
   $(OBJDIR)/card.dbg.o \
+  $(OBJDIR)/gamecard.dbg.o \
   $(OBJDIR)/context.dbg.o \
   $(OBJDIR)/resource.dbg.o
 

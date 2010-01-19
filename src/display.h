@@ -5,6 +5,7 @@
 struct SDL_Surface;
 
 namespace dminion {
+namespace game { class Card; }
 
 class Display 
 {
@@ -17,6 +18,7 @@ public:
   ~Display();
 
   void DrawText(const string& text, const Vec2& pos);
+  void DrawCard(const game::Card* card, const Vec2& pos);
   
   void Init();
   void Flip();
