@@ -22,11 +22,11 @@ Card::Card(const string& _name,
 }
 
 const string& Card::GetName() const {
-return name;
+  return name;
 }
 
 const string& Card::GetDescription() const {
-return description;
+  return description;
 }
 
 } // namespace game

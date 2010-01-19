@@ -61,9 +61,7 @@ void Dminion::Run() {
     }
   }
 #endif
-  
-  
-
 }
 
-}
+
+} // namespace dminion
