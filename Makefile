@@ -1,12 +1,12 @@
 EXEC = dminion
 CC = g++
-DEF = -DNORENDER
+DEF = 
 CFLAGS = -g $(DEF)
 OPT = -O3 
 INCLUDES = -ISDL
 LIBS = -lSDL -lSDL_ttf -lyaml-cpp
 OBJDIR = obj
-SRCDIR = .
+SRCDIR = src
 
 OBJS= \
   $(OBJDIR)/main.o \
