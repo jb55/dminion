@@ -43,8 +43,8 @@ void LoadAll() {
 
 template <typename T>
 static inline void SetKeyIfExists(const YAML::Node& node, const string& key,
-    T& val, bool warnIfMissing = false,
-    const string& filename = "") {
+                                  T& val, bool warnIfMissing = false,
+                                  const string& filename = "") {
   if (const YAML::Node* subNode = node.FindValue(key)) {
     *subNode >> val;
   } else if (warnIfMissing) {
@@ -91,7 +91,7 @@ game::Card* Load(const string& name) {
   }
 
   card = new game::Card(parsedName, description, flags, cost, actionBonus, 
-      cardBonus, treasureBonus, victoryBonus); 
+                        cardBonus, treasureBonus, victoryBonus); 
 
   resource::AddCard(card);
 
