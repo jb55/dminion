@@ -1,7 +1,7 @@
 EXEC = dminion
 CC = g++
 DEF = 
-CFLAGS = -g $(DEF)
+CFLAGS = -Wall -g $(DEF)
 OPT = -O3 
 INCLUDES = -ISDL
 LIBS = -lSDL -lSDL_ttf -lSDL_image -lyaml-cpp

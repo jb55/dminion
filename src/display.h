@@ -17,7 +17,7 @@ public:
   Display();
   ~Display();
 
-  void DrawText(const string& text, const Vec2& pos);
+  void DrawText(const string& text, const Vec2& pos, int ptSize = 32);
   void DrawCard(const game::Card* card, const Vec2& pos);
   
   void Init();

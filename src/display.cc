@@ -20,7 +20,7 @@ void Display::Init() {
   TTF_Init();
 
   SDL_Init(SDL_INIT_VIDEO);
-  screen = SDL_SetVideoMode(width, height, depth, SDL_HWSURFACE);
+  screen = SDL_SetVideoMode(width, height, depth, SDL_SWSURFACE);
 #endif
 
   initialized = true;
@@ -32,11 +32,11 @@ void Display::Flip() {
 #endif
 }
 
-void Display::DrawText(const string& text, const Vec2& pos) {
+void Display::DrawText(const string& text, const Vec2& pos, int ptSize) {
   TTF_Font* font;
   SDL_Surface* renderedText;
   const string kFont = "/usr/share/fonts/truetype/freefont/FreeSerif.ttf";
-  font = resource::GetFont(kFont, 32);
+  font = resource::GetFont(kFont, ptSize);
 
   const Color white(255, 255, 255);
   const Color black(0, 0, 0);
@@ -52,7 +52,7 @@ void Display::DrawText(const string& text, const Vec2& pos) {
 
 void Display::DrawCard(const game::Card* card, const Vec2& pos) {
   SDL_Surface* templateCard;
-  static const string kTemplateFile = "img/card_template.png";
+  static const string kTemplateFile = "img/card_template256.png";
   templateCard = resource::GetImage(kTemplateFile);  
 
   SDL_Rect dstRect;

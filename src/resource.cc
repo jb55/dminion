@@ -5,6 +5,7 @@
 #include "card.h"
 #include "gamecard.h"
 #include "SDL/SDL_image.h"
+#include <iostream>
 #include <vector>
 
 namespace dminion {
@@ -15,8 +16,8 @@ struct ResourceEntry {
   ResourceEntry(const string& _name, T& _data, int _id=0) 
     : name(_name), data(_data), id(_id) {}
   string name;
-  int id; // some identifier used when matching
   T data;
+  int id; // some identifier used when matching
 };
 
 template <typename T>
@@ -61,12 +62,21 @@ TTF_Font* GetFont(const string& name, int ptSize) {
 
 SDL_Surface* GetImage(const string& name) {
   SDL_Surface* image;
+  SDL_Surface* optImage;
   image = getResourceByName<SDL_Surface*>(name, 0, imageResources);
   if (image) return image;
 
   image = IMG_Load(name.c_str());
+  std::cout << IMG_GetError();
+  flush(std::cout);
+  optImage = SDL_DisplayFormat(image);
+  SDL_FreeSurface(image);
+  image = optImage;
+  
   ImageEntry entry(name, image);
   imageResources.push_back(entry);
+
+  return image;
 }
 
 void AddCard(game::Card* card) {

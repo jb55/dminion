@@ -37,8 +37,14 @@ void Dminion::Run() {
   Init();
 
   display->DrawText("Dminion: Dominion Card Game", Vec2(20, 20));
-  display->DrawText("Online", Vec2(20, 60));
-  display->DrawCard(NULL, Vec2(20, 60));
+  display->DrawText("INSIDE UR CARDS", Vec2(60, 100));
+
+  static const int kTop = 230;
+  display->DrawCard(NULL, Vec2(50, kTop));
+  display->DrawCard(NULL, Vec2(150, kTop));
+  display->DrawCard(NULL, Vec2(250, kTop));
+  display->DrawCard(NULL, Vec2(350, kTop));
+  display->DrawText("Smallll", Vec2(150, 220), 14);
   display->Flip();
 
   while (!done) {

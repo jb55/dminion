@@ -1,7 +1,7 @@
 #ifndef DMINION_PLAYER_H_
 #define DMINION_PLAYER_H_
 
-#include "card.h"
+#include "gamecard.h"
 #include <vector>
 
 namespace dminion {

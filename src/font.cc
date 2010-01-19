@@ -7,8 +7,6 @@ namespace font {
 
 TTF_Font* Load(const string& file, int ptSize) {
   TTF_Font* tmpFont;
-  const size_t size = file.size();
-
   tmpFont = TTF_OpenFont(file.c_str(), ptSize);
   if (tmpFont == NULL) {
     std::cout << "Unable to load font: " 
@@ -27,8 +25,6 @@ SDL_Surface* DrawTextToSurface(TTF_Font* font, const Color& fgColor,
 
   util::ColorToSDL(fgColor, &fontColor);
   util::ColorToSDL(bgColor, &fontBgColor);
-
-  size_t size = text.size();
 
   switch (quality) {
   default:
