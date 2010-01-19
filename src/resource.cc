@@ -69,7 +69,7 @@ SDL_Surface* GetImage(const string& name) {
   image = IMG_Load(name.c_str());
   std::cout << IMG_GetError();
   flush(std::cout);
-  optImage = SDL_DisplayFormat(image);
+  optImage = SDL_DisplayFormatAlpha(image);
   SDL_FreeSurface(image);
   image = optImage;
   

@@ -20,7 +20,7 @@ void Display::Init() {
   TTF_Init();
 
   SDL_Init(SDL_INIT_VIDEO);
-  screen = SDL_SetVideoMode(width, height, depth, SDL_SWSURFACE);
+  screen = SDL_SetVideoMode(width, height, depth, SDL_HWSURFACE);
 #endif
 
   initialized = true;
@@ -52,15 +52,13 @@ void Display::DrawText(const string& text, const Vec2& pos, int ptSize) {
 
 void Display::DrawCard(const game::Card* card, const Vec2& pos) {
   SDL_Surface* templateCard;
-  static const string kTemplateFile = "img/card_template256.png";
+  static const string kTemplateFile = "img/card_template_tiny.png";
   templateCard = resource::GetImage(kTemplateFile);  
 
   SDL_Rect dstRect;
   util::PositionSurface(templateCard, pos, dstRect);
 
   // Pink is transparent
-  uint32_t maskColor = SDL_MapRGB(templateCard->format, 255, 0, 255);
-  SDL_SetColorKey(templateCard, SDL_SRCCOLORKEY, maskColor);
   SDL_BlitSurface(templateCard, NULL, screen, &dstRect);
 }
 
