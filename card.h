@@ -5,37 +5,43 @@
 #include <deque>
 
 namespace dminion {
-
-namespace game {
-  class Card;
-}
+namespace game { class Card; }
 
 game::Card* LoadCard(const string& name);
+int GetCardFlagByName(const string& name);
+int* GetCardBonusFieldByName(const string& name, game::Card* card);
 void LoadCards();
+
 namespace game {
 
 class Card
 {
-  friend Card* dminion::LoadCard(const string& name);
-
   string name;
   string description;
-  int cardType;
-  int goldCost;
+  int types;
+  int cost;
 
   int actionBonus;
   int cardBonus;
-  int goldBonus;
+  int treasureBonus;
   int victoryBonus;
   
 public:
-  enum Type
+  enum TypeFlags
   {
-    kTreasure = 0,  //< Copper, Silver, Gold
-    kVictory,       //< Estate, Duchy, Province
-    kKingdom,       //< Action cards
-    kCurse          //< -1 Victory point
+    kNone     = 1 << 0,  //< Invalid card?
+    kTreasure = 1 << 1,  //< Copper, Silver, Gold
+    kVictory  = 1 << 2,  //< Estate, Duchy, Province
+    kAction   = 1 << 3,  //< Action cards
+    kAttack   = 1 << 4,  //< Attack
+    kCurse    = 1 << 5,  //< -1 Victory point
+    kDuration = 1 << 6,  //< Lasts until next turn
+    kDefense  = 1 << 7,  //< Reaction against attacks
   };
+
+  Card(const string& name, const string& description, int types,
+       int cost, int actionBonus, int cardBonus, int treasureBonus, 
+       int victoryBonus);
 
   const string& GetName() const;
   const string& GetDescription() const;
@@ -45,7 +51,7 @@ public:
   int GetActionBonus() const;
   int GetVictoryBonus() const;
   int GetCardBonus() const;
-  Type GetCardType() const;
+  int GetCardType() const;
 };
 
 class Cards

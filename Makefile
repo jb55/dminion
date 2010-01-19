@@ -1,6 +1,6 @@
 EXEC = dminion
 CC = g++
-DEF = -DNORENDER
+DEF = 
 CFLAGS = -g $(DEF)
 OPT = -O3 
 INCLUDES = -ISDL
