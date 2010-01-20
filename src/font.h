@@ -6,16 +6,15 @@
 namespace dminion {
 namespace font {
 
-enum FontQuality {
+enum Quality {
   kSolid,
   kShaded,
   kBlended
 };
 
-SDL_Surface* DrawTextToSurface(TTF_Font* font, const Color& fgColor,
-                               const Color& bgColor, const string& text,
-                               FontQuality quality);
+extern const string kDefaultFont;
 
+const string& GetDefault();
 TTF_Font* Load(const string& file, int ptSize);
 
 } // namespace font

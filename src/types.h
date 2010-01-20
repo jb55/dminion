@@ -8,10 +8,14 @@ typedef unsigned short uint16_t;
 #endif
 
 #include <string>
+#include "GL/gl.h"
+
+struct SDL_Surface;
 
 namespace dminion {
 
 typedef std::string string;
+typedef SDL_Surface* Texture;
 
 //
 // Vec2

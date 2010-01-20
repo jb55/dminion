@@ -1,10 +1,86 @@
 #include <stdlib.h>
 #include "util.h"
 #include "SDL/SDL.h"
+#include "SDL/SDL_image.h"
 #include "types.h" 
 
 namespace dminion {
 namespace util {
+
+extern const Color white(255, 255, 255);
+extern const Color black(0, 0, 0);
+
+SDL_Surface* LoadImage(const string& filename) {
+  SDL_Surface* surface, *optSurface;
+  surface = IMG_Load(filename.c_str());
+  bool hasAlpha = false;
+
+  // Does the texture contain an alpha channel?
+  SDL_PixelFormat* fmt = surface->format;
+  hasAlpha = fmt->Amask && fmt->Ashift; 
+
+  optSurface = hasAlpha ? SDL_DisplayFormatAlpha(surface) :
+                          SDL_DisplayFormat(surface);
+
+  SDL_FreeSurface(surface);
+  return optSurface;
+}
+
+Texture SurfaceToTexture(SDL_Surface* surface, bool needsBase) {
+  const int w = surface->w;
+  const int h = surface->w;
+
+  SDL_Surface* image;
+
+  if (needsBase) {
+    SDL_PixelFormat* fmt = surface->format;
+    image = SDL_CreateRGBSurface(SDL_SWSURFACE, w, h, 32,
+                                 fmt->Bmask, fmt->Gmask,
+                                 fmt->Rmask, fmt->Amask);
+    SDL_BlitSurface(surface, NULL, image, NULL);
+  } else {
+    image = surface;
+  }
+
+  /*
+  GLuint id;
+  glGenTextures(1, &id);
+  glBindTexture(GL_TEXTURE_2D, id);
+
+  glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, image->w, image->h, 0, GL_RGBA,
+               GL_UNSIGNED_BYTE, image->pixels);
+
+  SDL_FreeSurface(image);
+  */
+  return image;
+}
+
+SDL_Surface* DrawTextToSurface(TTF_Font* font, const string& text, 
+                               const Color& fgColor, const Color& bgColor, 
+                               font::Quality quality) {
+  SDL_Color fontColor;
+  SDL_Color fontBgColor;
+  SDL_Surface* resultText;
+
+  util::ColorToSDL(fgColor, &fontColor);
+  util::ColorToSDL(bgColor, &fontBgColor);
+
+  switch (quality) {
+  default:
+  case font::kSolid:
+    resultText = TTF_RenderUTF8_Solid(font, text.c_str(), fontColor);
+    break;
+  case font::kShaded:
+    resultText = TTF_RenderUTF8_Shaded(font, text.c_str(), fontColor, fontBgColor);
+    break;
+  case font::kBlended:
+    resultText = TTF_RenderUTF8_Blended(font, text.c_str(), fontColor);
+    break;
+  }
+
+  return resultText;
+}
+
 
 void ColorToSDL(const Color& color, SDL_Color* sdlColor) {
   sdlColor->r = color.r;
