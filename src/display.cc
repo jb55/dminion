@@ -35,13 +35,9 @@ void Display::Flip() {
 void Display::DrawText(const string& text, const Vec2& pos, int ptSize) {
   TTF_Font* font;
   SDL_Surface* renderedText;
-  const string kFont = "/usr/share/fonts/truetype/freefont/FreeSerif.ttf";
-  font = resource::GetFont(kFont, ptSize);
+  font = resource::GetFont(font::GetDefault(), ptSize);
 
-  const Color white(255, 255, 255);
-  const Color black(0, 0, 0);
-  renderedText = font::DrawTextToSurface(
-                 font, white, black, text, font::kBlended);
+  renderedText = util::DrawTextToSurface(font, text);
 
   SDL_Rect dstRect;
   util::PositionSurface(renderedText, pos, dstRect);
@@ -50,16 +46,8 @@ void Display::DrawText(const string& text, const Vec2& pos, int ptSize) {
   SDL_FreeSurface(renderedText);
 }
 
-void Display::DrawCard(const game::Card* card, const Vec2& pos) {
-  SDL_Surface* templateCard;
-  static const string kTemplateFile = "img/card_template_tiny.png";
-  templateCard = resource::GetImage(kTemplateFile);  
-
-  SDL_Rect dstRect;
-  util::PositionSurface(templateCard, pos, dstRect);
-
-  // Pink is transparent
-  SDL_BlitSurface(templateCard, NULL, screen, &dstRect);
+void Display::DrawCard(game::Card* card, const Vec2& pos) {
+  Texture templateCard = resource::GetCardTexture(card);  
 }
 
 Display::Display() : initialized(false) {
