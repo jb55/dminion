@@ -20,7 +20,7 @@ void Display::Init() {
   TTF_Init();
 
   SDL_Init(SDL_INIT_VIDEO);
-  screen = SDL_SetVideoMode(width, height, depth, SDL_HWSURFACE);
+  screen = SDL_SetVideoMode(width, height, depth, SDL_SWSURFACE);
 #endif
 
   initialized = true;
@@ -32,12 +32,13 @@ void Display::Flip() {
 #endif
 }
 
-void Display::DrawText(const string& text, const Vec2& pos, int ptSize) {
+void Display::DrawText(const string& text, const Vec2& pos, 
+                       const Color& color, int ptSize) {
   TTF_Font* font;
   SDL_Surface* renderedText;
   font = resource::GetFont(font::GetDefault(), ptSize);
 
-  renderedText = util::DrawTextToSurface(font, text);
+  renderedText = util::DrawTextToSurface(font, text, color);
 
   SDL_Rect dstRect;
   util::PositionSurface(renderedText, pos, dstRect);
@@ -47,7 +48,12 @@ void Display::DrawText(const string& text, const Vec2& pos, int ptSize) {
 }
 
 void Display::DrawCard(game::Card* card, const Vec2& pos) {
-  Texture templateCard = resource::GetCardTexture(card);  
+  Texture cardTexture = resource::GetCardTexture(card);  
+
+  SDL_Rect dstRect;
+  util::PositionSurface(cardTexture, pos, dstRect);
+
+  SDL_BlitSurface(cardTexture, NULL, screen, &dstRect);
 }
 
 Display::Display() : initialized(false) {

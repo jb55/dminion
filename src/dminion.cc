@@ -2,6 +2,7 @@
 #include "display.h"
 #include "dminion.h"
 #include "platform.h"
+#include "resource.h"
 #include "SDL/SDL.h"
 #include "card.h"
 #include <iostream>
@@ -39,12 +40,13 @@ void Dminion::Run() {
   display->DrawText("Dminion: Dominion Card Game", Vec2(20, 20));
   display->DrawText("INSIDE UR CARDS", Vec2(60, 100));
 
+  game::Card* spy = resource::GetCard("custom/test");
+
   static const int kTop = 230;
-  display->DrawCard(NULL, Vec2(50, kTop));
-  display->DrawCard(NULL, Vec2(150, kTop));
-  display->DrawCard(NULL, Vec2(250, kTop));
-  display->DrawCard(NULL, Vec2(350, kTop));
-  display->DrawText("Smallll", Vec2(150, 220), 14);
+  display->DrawCard(spy, Vec2(50, kTop));
+  display->DrawCard(spy, Vec2(150, kTop));
+  display->DrawCard(spy, Vec2(250, kTop));
+  display->DrawCard(spy, Vec2(350, kTop));
   display->Flip();
 
   while (!done) {

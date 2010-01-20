@@ -9,7 +9,7 @@ namespace game { class Card; }
 
 namespace resource {
 
-template <typename K, typename V, typename K2=int>
+template <typename K, typename V, typename D, typename K2=int>
 class Manager
 {
 protected:
@@ -30,9 +30,7 @@ protected:
 
 public:
 
-  virtual ~Manager() {}
-
-  virtual V Load(const K&, const K2&) {
+  V Load(const K& key1, const K2& key2) {
     return V();
   }
 
@@ -44,7 +42,10 @@ public:
       }
     }
 
-    return Load(key, id);
+    // static polymorphism ftw!
+    V val = static_cast<D*>(this)->Load(key, id);
+    Add(key, val, id);
+    return val;
   }
 
   void Add(const K& key, const V& val, const K2& key2=K2()) {
@@ -53,25 +54,26 @@ public:
   }
 };
 
-class TextureManager : public Manager<string, Texture>
+class TextureManager : public Manager<string, Texture, TextureManager>
 {
 public:
   Texture Load(const string& key, const int& unused=0);
 };
 
-class CardTextureManager : public Manager<game::Card*, Texture>
+class CardTextureManager : 
+      public Manager<game::Card*, Texture, CardTextureManager>
 {
 public:
-  Texture Load(const game::Card*& card, const int& unused=0);
+  Texture Load(game::Card* const& card, const int& unused=0);
 };
 
-class CardManager : public Manager<string, game::Card*, string>
+class CardManager : public Manager<string, game::Card*, CardManager>
 {
 public:
-  game::Card* Load(const string& key, const string& set);
+  game::Card* Load(const string& key, const int& unused);
 };
 
-class FontManager : public Manager<string, TTF_Font*>
+class FontManager : public Manager<string, TTF_Font*, FontManager>
 {
 public:
   TTF_Font* Load(const string& key, const int& ptSize);
@@ -82,8 +84,6 @@ Texture GetTexture(const string& name);
 Texture GetCardTexture(game::Card* card);
 game::Card* GetCard(const string& name);
 void AddCard(game::Card* card);
-
-
 
 } // namespace resource
 } // namespace dminion

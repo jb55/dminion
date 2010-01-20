@@ -38,7 +38,7 @@ int GetCardFlagByName(const string& name) {
 }
 
 void LoadAll() {
-  Load("cards/custom/test.yaml");
+  resource::GetCard("custom/test");
 }
 
 template <typename T>
@@ -53,9 +53,9 @@ static inline void SetKeyIfExists(const YAML::Node& node, const string& key,
 }
 
 game::Card* Load(const string& name) {
-  std::string parsedName, description;
-  const std::string filename = "cards/custom/test.yaml";
-  std::ifstream fin(filename.c_str());
+  string parsedName, description;
+
+  std::ifstream fin(name.c_str());
   YAML::Parser parser(fin);
   YAML::Node doc;
 
@@ -71,7 +71,7 @@ game::Card* Load(const string& name) {
   while (parser.GetNextDocument(doc)) {
     string val;
 
-    SetKeyIfExists<string>(doc, "name", parsedName, true, filename);
+    SetKeyIfExists<string>(doc, "name", parsedName, true, name);
     SetKeyIfExists<string>(doc, "description", description);
 
     // Load bonuses
@@ -92,8 +92,6 @@ game::Card* Load(const string& name) {
 
   card = new game::Card(parsedName, description, flags, cost, actionBonus, 
                         cardBonus, treasureBonus, victoryBonus); 
-
-  resource::AddCard(card);
 
   std::cout << "Card Loaded: " << card->GetName() << std::endl;
   std::cout << "Description: " << card->GetDescription() << std::endl;

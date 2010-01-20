@@ -88,8 +88,7 @@ void ColorToSDL(const Color& color, SDL_Color* sdlColor) {
   sdlColor->b = color.b;
 }
 
-void PositionSurface(const SDL_Surface* surface, const Vec2& pos,
-                     SDL_Rect& rect) {
+void PositionSurface(SDL_Surface* surface, const Vec2& pos, SDL_Rect& rect) {
   rect.x = static_cast<short>(pos.x);
   rect.y = static_cast<short>(pos.y);
   rect.w = surface->w;

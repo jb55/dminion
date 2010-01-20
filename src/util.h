@@ -18,7 +18,7 @@ extern const Color black;
 Texture       SurfaceToTexture(SDL_Surface* surface, bool needsBase=true);
 SDL_Surface*  LoadImage(const string& filename);
 
-void          PositionSurface(const SDL_Surface* surface, const Vec2& pos,
+void          PositionSurface(SDL_Surface* surface, const Vec2& pos,
                               SDL_Rect& rect);
 
 void          ColorToSDL(const Color& color, SDL_Color* sdlColor);
