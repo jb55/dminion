@@ -18,9 +18,9 @@ class Card
   int cardBonus;
   int treasureBonus;
   int victoryBonus;
-  
+
 public:
-  enum TypeFlags
+  enum Types
   {
     kNone     = 1 << 0,  //< Invalid card?
     kTreasure = 1 << 1,  //< Copper, Silver, Gold
@@ -39,12 +39,12 @@ public:
   const string& GetName() const;
   const string& GetDescription() const;
 
-  int GetGoldCost() const;
-  int GetGoldBonus() const;
+  int GetTreasureCost() const;
+  int GetTreasureBonus() const;
   int GetActionBonus() const;
   int GetVictoryBonus() const;
   int GetCardBonus() const;
-  int GetCardType() const;
+  int GetCardTypes() const;
 };
 
 class Cards

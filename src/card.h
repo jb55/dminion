@@ -14,8 +14,9 @@ namespace card {
 game::Card* Load(const string& name);
 int GetFlagByName(const string& name);
 int* GetBonusFieldByName(const string& name, game::Card* card);
-GLuint SurfaceToTexture(SDL_Surface* surface);
 void LoadAll();
+
+string GetTypeString(game::Card* card);
 
 } // namespace card
 } // namespace dminion

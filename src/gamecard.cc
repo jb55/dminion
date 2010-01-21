@@ -29,5 +29,29 @@ const string& Card::GetDescription() const {
   return description;
 }
 
+int Card::GetTreasureCost() const {
+  return cost;
+}
+
+int Card::GetTreasureBonus() const {
+  return treasureBonus;
+}
+
+int Card::GetActionBonus() const {
+  return actionBonus;
+}
+
+int Card::GetVictoryBonus() const {
+  return victoryBonus;
+}
+  
+int Card::GetCardBonus() const {
+  return cardBonus;
+}
+
+int Card::GetCardTypes() const {
+  return types;
+}
+
 } // namespace game
 } // namespace dminion

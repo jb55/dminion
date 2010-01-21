@@ -41,6 +41,26 @@ void LoadAll() {
   resource::GetCard("custom/test");
 }
 
+string GetTypeString(game::Card* card) {
+  string strTypes;
+  int types = card->GetCardTypes();
+  
+  if (types & game::Card::kTreasure)  strTypes.append("Treasure - ");
+  if (types & game::Card::kVictory)   strTypes.append("Victory - ");
+  if (types & game::Card::kAction)    strTypes.append("Action - ");
+  if (types & game::Card::kDefense)   strTypes.append("Defense - ");
+  if (types & game::Card::kAttack)    strTypes.append("Attack - ");
+  if (types & game::Card::kCurse)     strTypes.append("Curse - ");
+  if (types & game::Card::kDuration)  strTypes.append("Curse - ");
+
+  size_t size = 0;
+  if ((size = strTypes.size()) > 2) {
+    strTypes.resize(size - 3);
+  }
+
+  return strTypes;
+}
+
 template <typename T>
 static inline void SetKeyIfExists(const YAML::Node& node, const string& key,
                                   T& val, bool warnIfMissing = false,

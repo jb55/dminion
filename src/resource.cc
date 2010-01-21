@@ -4,6 +4,7 @@
 #include "util.h"
 #include "card.h"
 #include "gamecard.h"
+#include "const.h"
 #include "SDL/SDL_image.h"
 #include <iostream>
 #include <map>
@@ -31,7 +32,7 @@ Texture CardTextureManager::Load(game::Card* const& card, const int& unused) {
   static const string kCardTemplate = "img/card_template.png";
   SDL_Rect dstRect;
   SDL_Surface* base;
-  SDL_Surface* cardNameText;
+  SDL_Surface* cardText;
   SDL_Surface* cardTemplate;
 
   cardTemplate = resource::GetTexture(kCardTemplate);
@@ -56,14 +57,16 @@ Texture CardTextureManager::Load(game::Card* const& card, const int& unused) {
   // Render text
   // Card name
   TTF_Font* font = resource::GetFont(font::GetDefault(), 32);
-  cardNameText = util::DrawTextToSurface(font, card->GetName(), util::black);
-  util::PositionSurface(cardNameText, Vec2(0, 25), dstRect, base, kCenter);
+  cardText = util::DrawTextToSurface(font, card->GetName(), globals::black);
+  util::PositionSurface(cardText, Vec2(0, 25), dstRect, base, kCenter);
 
-  if (SDL_BlitSurface(cardNameText, NULL, base, &dstRect)) {
-    std::cout << "Error blitting card name text to base" << std::endl;
-  }
+  SDL_BlitSurface(cardText, NULL, base, &dstRect);
+  SDL_FreeSurface(cardText);
 
-  SDL_FreeSurface(cardNameText);
+  // Card stats
+  font = resource::GetFont(font::GetDefault(), 18);
+  cardText = util::DrawTextToSurface(font, card::GetTypeString(card), globals::black);
+  SDL_FreeSurface(cardText);
 
   // Card name
   return base;
