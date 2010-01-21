@@ -8,6 +8,9 @@ extern const int kScreenWidth;
 extern const int kScreenHeight;
 extern const int kScreenDepth;
 
+extern const Color white;
+extern const Color black;
+
 }
 }
 

@@ -81,16 +81,25 @@ SDL_Surface* DrawTextToSurface(TTF_Font* font, const string& text,
   return resultText;
 }
 
-
 void ColorToSDL(const Color& color, SDL_Color* sdlColor) {
   sdlColor->r = color.r;
   sdlColor->g = color.g;
   sdlColor->b = color.b;
 }
 
-void PositionSurface(SDL_Surface* surface, const Vec2& pos, SDL_Rect& rect) {
-  rect.x = static_cast<short>(pos.x);
-  rect.y = static_cast<short>(pos.y);
+void PositionSurface(SDL_Surface* surface, const Vec2& pos, SDL_Rect& rect, 
+                     SDL_Surface* dstSurface, Alignment align) {
+  short x, y;
+  if (align == kCenter) {
+    x = static_cast<short>((static_cast<float>(dstSurface->w) / 2.0) - 
+                           (static_cast<float>(surface->w) / 2.0));
+  } else {
+    x = static_cast<short>(pos.x);
+  }
+
+  y = static_cast<short>(pos.y);
+  rect.x = x;
+  rect.y = y;
   rect.w = surface->w;
   rect.h = surface->h;
 }

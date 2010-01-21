@@ -2,6 +2,7 @@
 #define _DMINION_DISPLAY_H_
 #include "types.h"
 #include "util.h"
+#include "const.h"
 
 struct SDL_Surface;
 
@@ -19,7 +20,7 @@ public:
   ~Display();
 
   void DrawText(const string& text, const Vec2& pos, 
-                const Color& color = util::white, int ptSize = 32);
+                const Color& color = globals::white, int ptSize = 32);
   void DrawCard(game::Card* card, const Vec2& pos);
   
   void Init();

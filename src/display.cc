@@ -41,7 +41,7 @@ void Display::DrawText(const string& text, const Vec2& pos,
   renderedText = util::DrawTextToSurface(font, text, color);
 
   SDL_Rect dstRect;
-  util::PositionSurface(renderedText, pos, dstRect);
+  util::PositionSurface(renderedText, pos, dstRect, screen);
 
   SDL_BlitSurface(renderedText, NULL, screen, &dstRect);
   SDL_FreeSurface(renderedText);
@@ -51,7 +51,7 @@ void Display::DrawCard(game::Card* card, const Vec2& pos) {
   Texture cardTexture = resource::GetCardTexture(card);  
 
   SDL_Rect dstRect;
-  util::PositionSurface(cardTexture, pos, dstRect);
+  util::PositionSurface(cardTexture, pos, dstRect, screen);
 
   SDL_BlitSurface(cardTexture, NULL, screen, &dstRect);
 }

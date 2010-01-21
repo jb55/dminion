@@ -17,6 +17,11 @@ namespace dminion {
 typedef std::string string;
 typedef SDL_Surface* Texture;
 
+enum Alignment {
+  kLeft,
+  kCenter
+};
+
 //
 // Vec2
 //

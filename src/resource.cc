@@ -28,12 +28,11 @@ Texture TextureManager::Load(const string& name, const int& unused) {
 }
 
 Texture CardTextureManager::Load(game::Card* const& card, const int& unused) {
-  static const string kCardTemplate = "img/card_template_big.png";
+  static const string kCardTemplate = "img/card_template.png";
   SDL_Rect dstRect;
   SDL_Surface* base;
   SDL_Surface* cardNameText;
   SDL_Surface* cardTemplate;
-  SDL_Surface* converted;
 
   cardTemplate = resource::GetTexture(kCardTemplate);
   
@@ -58,7 +57,7 @@ Texture CardTextureManager::Load(game::Card* const& card, const int& unused) {
   // Card name
   TTF_Font* font = resource::GetFont(font::GetDefault(), 32);
   cardNameText = util::DrawTextToSurface(font, card->GetName(), util::black);
-  util::PositionSurface(cardNameText, Vec2(20, 25), dstRect);
+  util::PositionSurface(cardNameText, Vec2(0, 25), dstRect, base, kCenter);
 
   if (SDL_BlitSurface(cardNameText, NULL, base, &dstRect)) {
     std::cout << "Error blitting card name text to base" << std::endl;

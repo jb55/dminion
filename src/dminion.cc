@@ -5,6 +5,7 @@
 #include "resource.h"
 #include "SDL/SDL.h"
 #include "card.h"
+#include <cmath>
 #include <iostream>
 
 namespace dminion {
@@ -38,15 +39,12 @@ void Dminion::Run() {
   Init();
 
   display->DrawText("Dminion: Dominion Card Game", Vec2(20, 20));
-  display->DrawText("INSIDE UR CARDS", Vec2(60, 100));
-
   game::Card* spy = resource::GetCard("custom/test");
 
   static const int kTop = 230;
-  display->DrawCard(spy, Vec2(50, kTop));
-  display->DrawCard(spy, Vec2(150, kTop));
-  display->DrawCard(spy, Vec2(250, kTop));
-  display->DrawCard(spy, Vec2(350, kTop));
+  for (int i = 0; i < 5; ++i) {
+    display->DrawCard(spy, Vec2((i+1)*100, kTop+((std::sin(i*30))*20)));
+  }
   display->Flip();
 
   while (!done) {

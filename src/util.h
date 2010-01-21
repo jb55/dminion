@@ -18,8 +18,9 @@ extern const Color black;
 Texture       SurfaceToTexture(SDL_Surface* surface, bool needsBase=true);
 SDL_Surface*  LoadImage(const string& filename);
 
-void          PositionSurface(SDL_Surface* surface, const Vec2& pos,
-                              SDL_Rect& rect);
+void          PositionSurface(SDL_Surface* surface, const Vec2& pos, 
+                              SDL_Rect& rect, SDL_Surface* dstSurface, 
+                              Alignment align = kLeft);
 
 void          ColorToSDL(const Color& color, SDL_Color* sdlColor);
 uint16_t*     WideToU16(const wchar_t* wide, uint16_t* u16, size_t size);
