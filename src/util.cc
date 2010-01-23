@@ -92,7 +92,7 @@ void PositionSurface(SDL_Surface* surface, const Vec2& pos, SDL_Rect& rect,
   short x, y;
   if (align == kCenter) {
     x = static_cast<short>((static_cast<float>(dstSurface->w) / 2.0) - 
-                           (static_cast<float>(surface->w) / 2.0));
+                           (static_cast<float>(surface->w) / 2.0)) + pos.x;
   } else {
     x = static_cast<short>(pos.x);
   }

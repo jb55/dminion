@@ -29,7 +29,7 @@ Texture TextureManager::Load(const string& name, const int& unused) {
 }
 
 Texture CardTextureManager::Load(game::Card* const& card, const int& unused) {
-  static const string kCardTemplate = "img/card_template.png";
+  static const string kCardTemplate = "card_template.png";
   SDL_Rect dstRect;
   SDL_Surface* base;
   SDL_Surface* cardText;
@@ -44,17 +44,22 @@ Texture CardTextureManager::Load(game::Card* const& card, const int& unused) {
                               fmt->Bmask, fmt->Amask);
   
   // I don't know what these do but it makes it work so I'm not complaining
-  SDL_SetAlpha(cardTemplate, 0, fmt->alpha);
-  SDL_SetAlpha(base, SDL_SRCALPHA, base->format->alpha);
+  SDL_SetAlpha(base, 0, base->format->alpha);
 
-  // TODO: Render card art
+  // Card art
+  SDL_Surface* cardArt = resource::GetTexture(card->GetArt());
+  util::PositionSurface(cardArt, Vec2(0, 60), dstRect, base, kCenter);
+  if (SDL_BlitSurface(cardArt, NULL, base, &dstRect) < 0) {
+    std::cout << "Error blitting card art to base" << std::endl;
+  }
 
-  // Render card template
+  //SDL_SetAlpha(cardTemplate, 0, alpha);
+
+  // Card template
   if (SDL_BlitSurface(cardTemplate, NULL, base, NULL) < 0) {
     std::cout << "Error blitting card template to base" << std::endl;
   }
 
-  // Render text
   // Card name
   TTF_Font* font = resource::GetFont(font::GetDefault(), 32);
   cardText = util::DrawTextToSurface(font, card->GetName(), globals::black);
@@ -65,7 +70,8 @@ Texture CardTextureManager::Load(game::Card* const& card, const int& unused) {
 
   // Card stats
   font = resource::GetFont(font::GetDefault(), 18);
-  cardText = util::DrawTextToSurface(font, card::GetTypeString(card), globals::black);
+  cardText = util::DrawTextToSurface(font, card::GetTypeString(card), 
+                                     globals::black);
   SDL_FreeSurface(cardText);
 
   // Card name
@@ -87,7 +93,8 @@ Texture GetCardTexture(game::Card* card) {
 }
 
 Texture GetTexture(const string& name) {
-  return textureManager.Get(name);
+  static const string kTextureDir = "img/";
+  return textureManager.Get(kTextureDir + name);
 }
 
 void AddCard(game::Card* card) {

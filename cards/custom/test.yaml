@@ -1,5 +1,6 @@
 name: Spy
 cost: 4
+art: test.png
 bonuses:
   card: 1
   action: 1

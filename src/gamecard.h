@@ -11,6 +11,7 @@ class Card
 {
   string name;
   string description;
+  string art;
   int types;
   int cost;
 
@@ -32,11 +33,12 @@ public:
     kDefense  = 1 << 7,  //< Reaction against attacks
   };
 
-  Card(const string& name, const string& description, int types,
-       int cost, int actionBonus, int cardBonus, int treasureBonus, 
+  Card(const string& name, const string& description, const string& art, 
+       int types, int cost, int actionBonus, int cardBonus, int treasureBonus,
        int victoryBonus);
 
   const string& GetName() const;
+  const string& GetArt() const;
   const string& GetDescription() const;
 
   int GetTreasureCost() const;

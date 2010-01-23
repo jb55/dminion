@@ -73,7 +73,7 @@ static inline void SetKeyIfExists(const YAML::Node& node, const string& key,
 }
 
 game::Card* Load(const string& name) {
-  string parsedName, description;
+  string parsedName, description, art;
 
   std::ifstream fin(name.c_str());
   YAML::Parser parser(fin);
@@ -93,6 +93,7 @@ game::Card* Load(const string& name) {
 
     SetKeyIfExists<string>(doc, "name", parsedName, true, name);
     SetKeyIfExists<string>(doc, "description", description);
+    SetKeyIfExists<string>(doc, "art", art, true, name);
 
     // Load bonuses
     if (const YAML::Node* bonuses = doc.FindValue("bonuses")) {
@@ -110,7 +111,7 @@ game::Card* Load(const string& name) {
     }
   }
 
-  card = new game::Card(parsedName, description, flags, cost, actionBonus, 
+  card = new game::Card(parsedName, description, art, flags, cost, actionBonus, 
                         cardBonus, treasureBonus, victoryBonus); 
 
   std::cout << "Card Loaded: " << card->GetName() << std::endl;
