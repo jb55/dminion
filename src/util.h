@@ -26,6 +26,8 @@ void          ColorToSDL(const Color& color, SDL_Color* sdlColor);
 uint16_t*     WideToU16(const wchar_t* wide, uint16_t* u16, size_t size);
 char*         WideToChar(const wchar_t* wide, char* ch, size_t size);
 
+unsigned int  CountBitsSet(unsigned int flags);
+
 SDL_Surface*  DrawTextToSurface(TTF_Font* font,
                                 const string& text, 
                                 const Color& fgColor=black, 

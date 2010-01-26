@@ -71,7 +71,8 @@ SDL_Surface* DrawTextToSurface(TTF_Font* font, const string& text,
     resultText = TTF_RenderUTF8_Solid(font, text.c_str(), fontColor);
     break;
   case font::kShaded:
-    resultText = TTF_RenderUTF8_Shaded(font, text.c_str(), fontColor, fontBgColor);
+    resultText = TTF_RenderUTF8_Shaded(font, text.c_str(), fontColor, 
+                                       fontBgColor);
     break;
   case font::kBlended:
     resultText = TTF_RenderUTF8_Blended(font, text.c_str(), fontColor);
@@ -102,6 +103,15 @@ void PositionSurface(SDL_Surface* surface, const Vec2& pos, SDL_Rect& rect,
   rect.y = y;
   rect.w = surface->w;
   rect.h = surface->h;
+}
+
+// Counts the number of bits set in flags
+unsigned int CountBitsSet(unsigned int flags) {
+  unsigned int count;
+  for (count = 0; flags; count++) {
+    flags &= flags - 1;
+  }
+  return count;
 }
 
 uint16_t* WideToU16(const wchar_t* wide, 

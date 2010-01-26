@@ -69,9 +69,15 @@ Texture CardTextureManager::Load(game::Card* const& card, const int& unused) {
   SDL_FreeSurface(cardText);
 
   // Card stats
-  font = resource::GetFont(font::GetDefault(), 18);
+
+  // Card type
+  unsigned int numTypes = util::CountBitsSet(card->GetCardTypes());
+  font = resource::GetFont(font::GetDefault(), 24 - numTypes * 2);
   cardText = util::DrawTextToSurface(font, card::GetTypeString(card), 
                                      globals::black);
+
+  util::PositionSurface(cardText, Vec2(0, 435), dstRect, base, kCenter);
+  SDL_BlitSurface(cardText, NULL, base, &dstRect);
   SDL_FreeSurface(cardText);
 
   // Card name
