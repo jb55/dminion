@@ -91,16 +91,16 @@ game::Card* Load(const string& name) {
   while (parser.GetNextDocument(doc)) {
     string val;
 
-    SetKeyIfExists<string>(doc, "name", parsedName, true, name);
-    SetKeyIfExists<string>(doc, "description", description);
-    SetKeyIfExists<string>(doc, "art", art, true, name);
+    SetKeyIfExists(doc, "name", parsedName, true, name);
+    SetKeyIfExists(doc, "description", description);
+    SetKeyIfExists(doc, "art", art, true, name);
 
     // Load bonuses
     if (const YAML::Node* bonuses = doc.FindValue("bonuses")) {
-      SetKeyIfExists<int>(*bonuses, "action", actionBonus);
-      SetKeyIfExists<int>(*bonuses, "card", cardBonus); 
-      SetKeyIfExists<int>(*bonuses, "treasure", treasureBonus);
-      SetKeyIfExists<int>(*bonuses, "victory", victoryBonus);
+      SetKeyIfExists(*bonuses, "action", actionBonus);
+      SetKeyIfExists(*bonuses, "card", cardBonus); 
+      SetKeyIfExists(*bonuses, "treasure", treasureBonus);
+      SetKeyIfExists(*bonuses, "victory", victoryBonus);
     }
 
     // Load types
