@@ -65,8 +65,8 @@ Texture CardTextureManager::Load(game::Card* const& card, const int& unused) {
                           font::kCenter, globals::black);
 
   // Card stats
-  font = resource::GetFont(font::GetDefault(), 24);
-  util::DrawTextToSurface(base, Vec2(0, 400), font, card->GetDescription(),
+  font = resource::GetFont(font::GetDefault(), 12);
+  util::DrawTextToSurface(base, Vec2(0, 350), font, card->GetDescription(),
                           font::kCenter, globals::black);
 
   // Card type

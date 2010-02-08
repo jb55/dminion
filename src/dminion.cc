@@ -54,6 +54,13 @@ void Dminion::Run() {
     case SDL_KEYDOWN:
       std::cout << "The " << SDL_GetKeyName(event.key.keysym.sym)
                 << " key was pressed!" << std::endl;
+      switch (event.key.keysym.sym) {
+      case SDLK_ESCAPE:
+        done = true;
+        break;
+      default:
+        break;
+      }
       break;
     case SDL_QUIT:
       done = true;
