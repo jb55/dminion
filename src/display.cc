@@ -35,16 +35,9 @@ void Display::Flip() {
 void Display::DrawText(const string& text, const Vec2& pos, 
                        const Color& color, int ptSize) {
   TTF_Font* font;
-  SDL_Surface* renderedText;
+
   font = resource::GetFont(font::GetDefault(), ptSize);
-
-  renderedText = util::DrawTextToSurface(font, text, color);
-
-  SDL_Rect dstRect;
-  util::PositionSurface(renderedText, pos, dstRect, screen);
-
-  SDL_BlitSurface(renderedText, NULL, screen, &dstRect);
-  SDL_FreeSurface(renderedText);
+  util::DrawTextToSurface(screen, pos, font, text, font::kLeft, color);
 }
 
 void Display::DrawCard(game::Card* card, const Vec2& pos) {

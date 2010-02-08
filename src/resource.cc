@@ -32,8 +32,8 @@ Texture CardTextureManager::Load(game::Card* const& card, const int& unused) {
   static const string kCardTemplate = "card_template.png";
   SDL_Rect dstRect;
   SDL_Surface* base;
-  SDL_Surface* cardText;
   SDL_Surface* cardTemplate;
+  TTF_Font* font;
 
   cardTemplate = resource::GetTexture(kCardTemplate);
   
@@ -48,12 +48,11 @@ Texture CardTextureManager::Load(game::Card* const& card, const int& unused) {
 
   // Card art
   SDL_Surface* cardArt = resource::GetTexture(card->GetArt());
-  util::PositionSurface(cardArt, Vec2(0, 60), dstRect, base, kCenter);
+  util::PositionSurface(cardArt, Vec2(0, 60), dstRect, base, font::kCenter);
+
   if (SDL_BlitSurface(cardArt, NULL, base, &dstRect) < 0) {
     std::cout << "Error blitting card art to base" << std::endl;
   }
-
-  //SDL_SetAlpha(cardTemplate, 0, alpha);
 
   // Card template
   if (SDL_BlitSurface(cardTemplate, NULL, base, NULL) < 0) {
@@ -61,24 +60,20 @@ Texture CardTextureManager::Load(game::Card* const& card, const int& unused) {
   }
 
   // Card name
-  TTF_Font* font = resource::GetFont(font::GetDefault(), 32);
-  cardText = util::DrawTextToSurface(font, card->GetName(), globals::black);
-  util::PositionSurface(cardText, Vec2(0, 25), dstRect, base, kCenter);
-
-  SDL_BlitSurface(cardText, NULL, base, &dstRect);
-  SDL_FreeSurface(cardText);
+  font = resource::GetFont(font::GetDefault(), 32);
+  util::DrawTextToSurface(base, Vec2(0, 24), font, card->GetName(), 
+                          font::kCenter, globals::black);
 
   // Card stats
+  font = resource::GetFont(font::GetDefault(), 24);
+  util::DrawTextToSurface(base, Vec2(0, 400), font, card->GetDescription(),
+                          font::kCenter, globals::black);
 
   // Card type
   unsigned int numTypes = util::CountBitsSet(card->GetCardTypes());
   font = resource::GetFont(font::GetDefault(), 24 - numTypes * 2);
-  cardText = util::DrawTextToSurface(font, card::GetTypeString(card), 
-                                     globals::black);
-
-  util::PositionSurface(cardText, Vec2(0, 435), dstRect, base, kCenter);
-  SDL_BlitSurface(cardText, NULL, base, &dstRect);
-  SDL_FreeSurface(cardText);
+  util::DrawTextToSurface(base, Vec2(0, 435), font, card::GetTypeString(card),
+                          font::kCenter, globals::black);
 
   // Card name
   return base;

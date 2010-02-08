@@ -55,11 +55,17 @@ Texture SurfaceToTexture(SDL_Surface* surface, bool needsBase) {
   return image;
 }
 
-SDL_Surface* DrawTextToSurface(TTF_Font* font, const string& text, 
-                               const Color& fgColor, const Color& bgColor, 
-                               font::Quality quality) {
+void DrawTextToSurface(SDL_Surface* dstSurface,
+                       const Vec2& pos,
+                       TTF_Font* font,
+                       const string& text,
+                       font::Alignment align,
+                       const Color& fgColor,
+                       const Color& bgColor,
+                       font::Quality quality) {
   SDL_Color fontColor;
   SDL_Color fontBgColor;
+  SDL_Rect dstRect;
   SDL_Surface* resultText;
 
   util::ColorToSDL(fgColor, &fontColor);
@@ -79,7 +85,10 @@ SDL_Surface* DrawTextToSurface(TTF_Font* font, const string& text,
     break;
   }
 
-  return resultText;
+  util::PositionSurface(resultText, pos, dstRect, dstSurface, align);
+
+  SDL_BlitSurface(resultText, NULL, dstSurface, &dstRect);
+  SDL_FreeSurface(resultText);
 }
 
 void ColorToSDL(const Color& color, SDL_Color* sdlColor) {
@@ -89,9 +98,9 @@ void ColorToSDL(const Color& color, SDL_Color* sdlColor) {
 }
 
 void PositionSurface(SDL_Surface* surface, const Vec2& pos, SDL_Rect& rect, 
-                     SDL_Surface* dstSurface, Alignment align) {
+                     SDL_Surface* dstSurface, font::Alignment align) {
   short x, y;
-  if (align == kCenter) {
+  if (align == font::kCenter) {
     x = static_cast<short>((static_cast<float>(dstSurface->w) / 2.0) - 
                            (static_cast<float>(surface->w) / 2.0)) + pos.x;
   } else {

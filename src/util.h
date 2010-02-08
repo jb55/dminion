@@ -20,7 +20,7 @@ SDL_Surface*  LoadImage(const string& filename);
 
 void          PositionSurface(SDL_Surface* surface, const Vec2& pos, 
                               SDL_Rect& rect, SDL_Surface* dstSurface, 
-                              Alignment align = kLeft);
+                              font::Alignment align = font::kLeft);
 
 void          ColorToSDL(const Color& color, SDL_Color* sdlColor);
 uint16_t*     WideToU16(const wchar_t* wide, uint16_t* u16, size_t size);
@@ -28,12 +28,14 @@ char*         WideToChar(const wchar_t* wide, char* ch, size_t size);
 
 unsigned int  CountBitsSet(unsigned int flags);
 
-SDL_Surface*  DrawTextToSurface(TTF_Font* font,
-                                const string& text, 
-                                const Color& fgColor=black, 
-                                const Color& bgColor=white, 
-                                font::Quality quality=font::kBlended);
-
+void DrawTextToSurface(SDL_Surface* dstSurface,
+                       const Vec2& pos,
+                       TTF_Font* font,
+                       const string& text,
+                       font::Alignment align,
+                       const Color& fgColor=black,
+                       const Color& bgColor=white,
+                       font::Quality quality=font::kBlended);
 } // namespace util
 } // namespace dminion
 
