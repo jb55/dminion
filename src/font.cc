@@ -7,10 +7,16 @@ namespace font {
 
 extern const string kDefaultFontDir = "/usr/share/fonts/truetype/freefont/";
 extern const string kDefaultFont = "FreeSerif.ttf";
+extern const string kDescFont = "FreeSans.ttf";
 
 const string& GetDefault() {
   static const string kDefault = kDefaultFontDir + kDefaultFont;
   return kDefault;
+}
+
+const string& GetSans() {
+  static const string kDesc = kDefaultFontDir + kDescFont;
+  return GetDefault();
 }
 
 TTF_Font* Load(const string& file, int ptSize) {

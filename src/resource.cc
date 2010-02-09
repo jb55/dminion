@@ -8,6 +8,7 @@
 #include "SDL/SDL_image.h"
 #include "boost/foreach.hpp"
 #include <iostream>
+#include <sstream>
 #include <map>
 
 namespace dminion {
@@ -65,11 +66,11 @@ Texture CardTextureManager::Load(game::Card* const& card, const int& unused) {
   util::DrawTextToSurface(base, Vec2(0, 24), font, card->GetName(), 
                           font::kCenter, globals::black);
 
-  // Card stats
+  // Card description
   std::vector<string> lines;
   const string& description = card->GetDescription();
 
-  font = resource::GetFont(font::GetDefault(), 14);
+  font = resource::GetFont(font::GetSans(), 14);
   static const int kDescStart = 290;
   bool hasLines = util::FormatDescription(card->GetDescription(), lines);
   if (hasLines) {
@@ -83,6 +84,17 @@ Texture CardTextureManager::Load(game::Card* const& card, const int& unused) {
     util::DrawTextToSurface(base, Vec2(0, kDescStart), font, description,
                             font::kCenter, globals::black);
   }
+
+  // Card stats
+  std::stringstream os;
+  os << card->GetTreasureCost();
+
+  font = resource::GetFont(font::GetSans(), 24);
+  int savedStyle = TTF_GetFontStyle(font);
+  TTF_SetFontStyle(font, TTF_STYLE_BOLD);
+  util::DrawTextToSurface(base, Vec2(39, 435), font, os.str(), 
+                          font::kLeft, globals::black);
+  TTF_SetFontStyle(font, savedStyle);
 
   // Card type
   unsigned int numTypes = util::CountBitsSet(card->GetCardTypes());

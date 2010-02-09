@@ -13,8 +13,10 @@ enum Quality {
 };
 
 extern const string kDefaultFont;
+extern const string kDescFont;
 
 const string& GetDefault();
+const string& GetSans();
 TTF_Font* Load(const string& file, int ptSize);
 
 } // namespace font

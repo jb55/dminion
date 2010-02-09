@@ -92,6 +92,7 @@ game::Card* Load(const string& name) {
     string val;
 
     SetKeyIfExists(doc, "name", parsedName, true, name);
+    SetKeyIfExists(doc, "cost", cost, true, name);
     SetKeyIfExists(doc, "description", description);
     SetKeyIfExists(doc, "art", art, true, name);
 
