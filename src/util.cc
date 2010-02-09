@@ -1,4 +1,5 @@
 #include <stdlib.h>
+#include <vector>
 #include "util.h"
 #include "SDL/SDL.h"
 #include "SDL/SDL_image.h"
@@ -53,6 +54,34 @@ Texture SurfaceToTexture(SDL_Surface* surface, bool needsBase) {
   SDL_FreeSurface(image);
   */
   return image;
+}
+
+bool FormatDescription(const string& description, std::vector<string>& lines,
+                       size_t breakSize) {
+  typedef string::const_iterator iter_type; 
+  size_t dSize = description.size();
+
+  if (dSize <= breakSize) {
+    return false;
+  }
+
+  iter_type first = description.begin();
+  iter_type last;
+
+  for (size_t i = 0, x = 0; i < dSize; ++i, ++x) {
+    char c = description.at(i);
+    if ((i == dSize - 1) || (x > breakSize && c == ' ')) {
+      string newStr(x, '\0');
+      last = first + x;
+      std::copy(first, last, newStr.begin());
+      lines.push_back(newStr);
+
+      first = description.begin() + i;
+      x = 0;
+    }
+  }
+
+  return true;
 }
 
 void DrawTextToSurface(SDL_Surface* dstSurface,

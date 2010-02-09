@@ -6,6 +6,7 @@
 #include "gamecard.h"
 #include "const.h"
 #include "SDL/SDL_image.h"
+#include "boost/foreach.hpp"
 #include <iostream>
 #include <map>
 
@@ -65,9 +66,23 @@ Texture CardTextureManager::Load(game::Card* const& card, const int& unused) {
                           font::kCenter, globals::black);
 
   // Card stats
-  font = resource::GetFont(font::GetDefault(), 12);
-  util::DrawTextToSurface(base, Vec2(0, 350), font, card->GetDescription(),
-                          font::kCenter, globals::black);
+  std::vector<string> lines;
+  const string& description = card->GetDescription();
+
+  font = resource::GetFont(font::GetDefault(), 14);
+  static const int kDescStart = 290;
+  bool hasLines = util::FormatDescription(card->GetDescription(), lines);
+  if (hasLines) {
+    int i = 0;
+    BOOST_FOREACH(string line, lines) {
+      util::DrawTextToSurface(base, Vec2(0, kDescStart + (i*15)), font, line,
+                              font::kCenter, globals::black);
+      i++;
+    }
+  } else {
+    util::DrawTextToSurface(base, Vec2(0, kDescStart), font, description,
+                            font::kCenter, globals::black);
+  }
 
   // Card type
   unsigned int numTypes = util::CountBitsSet(card->GetCardTypes());
@@ -75,7 +90,6 @@ Texture CardTextureManager::Load(game::Card* const& card, const int& unused) {
   util::DrawTextToSurface(base, Vec2(0, 435), font, card::GetTypeString(card),
                           font::kCenter, globals::black);
 
-  // Card name
   return base;
 }
 

@@ -1,9 +1,10 @@
 EXEC = dminion
 CC = g++
 DEF = 
+BOOST = $(HOME)/dev/boost_1_42_0
 CFLAGS = -Wall -g $(DEF)
 OPT = -O3 
-INCLUDES = -ISDL
+INCLUDES = -ISDL -I$(BOOST)
 LIBS = -lSDL -lSDL_ttf -lSDL_image -lyaml-cpp
 OBJDIR = obj
 SRCDIR = src

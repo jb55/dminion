@@ -2,6 +2,7 @@
 #define _DMINION_UTIL_H_
 #include "types.h"
 #include "font.h"
+#include <vector>
 
 struct SDL_Color;
 struct SDL_Surface;
@@ -27,6 +28,9 @@ uint16_t*     WideToU16(const wchar_t* wide, uint16_t* u16, size_t size);
 char*         WideToChar(const wchar_t* wide, char* ch, size_t size);
 
 unsigned int  CountBitsSet(unsigned int flags);
+
+bool FormatDescription(const string& description, std::vector<string>& lines,
+                       size_t breakSize = 30);
 
 void DrawTextToSurface(SDL_Surface* dstSurface,
                        const Vec2& pos,
