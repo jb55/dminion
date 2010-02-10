@@ -3,24 +3,12 @@
 namespace dminion {
 namespace game {
 
-Card::Card(const string& _name, 
-           const string& _description, 
-           const string& _art, 
-           int _types,
-           int _cost, 
-           int _actionBonus, 
-           int _cardBonus, 
-           int _treasureBonus, 
-           int _victoryBonus) 
-             : name(_name),
-               description(_description),
-               art(_art),
-               types(_types),
-               cost(_cost),
-               actionBonus(_actionBonus),
-               cardBonus(_cardBonus),
-               treasureBonus(_treasureBonus),
-               victoryBonus(_victoryBonus) {
+Card::Card(const string& _name, const string& _description, const string& _art,
+           int _types, int _cost, int* bonuses) : name(_name), 
+           description(_description), art(_art), types(_types), cost(_cost) {
+  for (int i = 0; i < kNumBonuses; ++i) {
+    bonus[i] = *bonuses++;
+  }
 }
 
 const string& Card::GetName() const {
@@ -38,21 +26,9 @@ const string& Card::GetArt() const {
 int Card::GetTreasureCost() const {
   return cost;
 }
-
-int Card::GetTreasureBonus() const {
-  return treasureBonus;
-}
-
-int Card::GetActionBonus() const {
-  return actionBonus;
-}
-
-int Card::GetVictoryBonus() const {
-  return victoryBonus;
-}
   
-int Card::GetCardBonus() const {
-  return cardBonus;
+int Card::GetCardBonus(BonusType bonusType) const {
+  return bonus[bonusType];
 }
 
 int Card::GetCardTypes() const {

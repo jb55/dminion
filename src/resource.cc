@@ -36,6 +36,7 @@ Texture CardTextureManager::Load(game::Card* const& card, const int& unused) {
   SDL_Surface* base;
   SDL_Surface* cardTemplate;
   TTF_Font* font;
+  std::vector<string> lines;
 
   cardTemplate = resource::GetTexture(kCardTemplate);
   
@@ -66,8 +67,10 @@ Texture CardTextureManager::Load(game::Card* const& card, const int& unused) {
   util::DrawTextToSurface(base, Vec2(0, 24), font, card->GetName(), 
                           font::kCenter, globals::black);
 
+  // Card stats
+
   // Card description
-  std::vector<string> lines;
+  lines.clear();
   const string& description = card->GetDescription();
 
   font = resource::GetFont(font::GetSans(), 14);
@@ -85,7 +88,7 @@ Texture CardTextureManager::Load(game::Card* const& card, const int& unused) {
                             font::kCenter, globals::black);
   }
 
-  // Card stats
+  // Card cost
   std::stringstream os;
   os << card->GetTreasureCost();
 

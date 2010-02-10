@@ -7,6 +7,14 @@
 namespace dminion {
 namespace game {
 
+enum BonusType {
+  kActionBonus,
+  kCardBonus,
+  kTreasureBonus,
+  kVictoryBonus,
+  kNumBonuses
+};
+
 class Card
 {
   string name;
@@ -15,10 +23,7 @@ class Card
   int types;
   int cost;
 
-  int actionBonus;
-  int cardBonus;
-  int treasureBonus;
-  int victoryBonus;
+  int bonus[kNumBonuses];
 
 public:
   enum Types
@@ -30,22 +35,18 @@ public:
     kAttack   = 1 << 4,  //< Attack
     kCurse    = 1 << 5,  //< -1 Victory point
     kDuration = 1 << 6,  //< Lasts until next turn
-    kDefense  = 1 << 7,  //< Reaction against attacks
+    kDefense  = 1 << 7   //< Reaction against attacks
   };
 
   Card(const string& name, const string& description, const string& art, 
-       int types, int cost, int actionBonus, int cardBonus, int treasureBonus,
-       int victoryBonus);
+       int types, int cost, int* bonuses);
 
   const string& GetName() const;
   const string& GetArt() const;
   const string& GetDescription() const;
 
   int GetTreasureCost() const;
-  int GetTreasureBonus() const;
-  int GetActionBonus() const;
-  int GetVictoryBonus() const;
-  int GetCardBonus() const;
+  int GetCardBonus(BonusType bonusType) const;
   int GetCardTypes() const;
 };
 

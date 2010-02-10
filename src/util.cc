@@ -1,9 +1,12 @@
 #include <stdlib.h>
+#include <sstream>
 #include <vector>
 #include "util.h"
 #include "SDL/SDL.h"
 #include "SDL/SDL_image.h"
 #include "types.h" 
+#include "gamecard.h" 
+#include "card.h" 
 
 namespace dminion {
 namespace util {
@@ -54,6 +57,18 @@ Texture SurfaceToTexture(SDL_Surface* surface, bool needsBase) {
   SDL_FreeSurface(image);
   */
   return image;
+}
+
+void FormatStats(int* bonus, std::vector<string>& lines) {
+  for (int i = 0; i < game::kNumBonuses; ++i) {
+    int b = bonus[i];
+    if (b == 0) continue;
+    std::stringstream os;
+    os << (b < 0 ? "- " : "+ ") << b << " "
+       << card::GetBonusString(i);
+
+    lines.push_back(os.str());
+  }
 }
 
 bool FormatDescription(const string& description, std::vector<string>& lines,

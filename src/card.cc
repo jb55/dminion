@@ -8,17 +8,12 @@
 namespace dminion {
 namespace card {
 
-struct CardFlagPair {
+struct CardPair {
   string name;
-  int flag;
+  int val;
 };
 
-struct CardBonusPair {
-  string name;
-  int game::Card::*p;
-};
-
-static const CardFlagPair kCardFlagMap[] = {
+static const CardPair kCardFlagMap[] = {
   { "treasure", game::Card::kTreasure },
   { "victory", game::Card::kVictory },
   { "action", game::Card::kAction },
@@ -28,13 +23,29 @@ static const CardFlagPair kCardFlagMap[] = {
   { "defense", game::Card::kDefense }
 };
 
+static const CardPair kCardBonusMap[] = {
+  { "", game::kTreasureBonus }, // icon
+  { "", game::kVictoryBonus }, // icon
+  { "Action", game::kActionBonus },
+  { "Card", game::kCardBonus }
+};
+
 int GetCardFlagByName(const string& name) {
   for (size_t i = 0; i < sizeof(kCardFlagMap); ++i) {
     if (kCardFlagMap[i].name == name) {
-      return kCardFlagMap[i].flag;
+      return kCardFlagMap[i].val;
     }
   }
   return game::Card::kNone;
+}
+
+const string& GetBonusString(int bonusType) {
+  for (size_t i = 0; i < sizeof(kCardBonusMap); ++i) {
+    if (kCardBonusMap[i].val == bonusType) {
+      return kCardFlagMap[i].name;
+    }
+  }
+  return kCardBonusMap[game::kTreasureBonus].name;
 }
 
 void LoadAll() {
@@ -81,10 +92,7 @@ game::Card* Load(const string& name) {
 
   int flags = game::Card::kNone;
   int cost = 0;
-  int actionBonus = 0;
-  int cardBonus = 0;
-  int treasureBonus = 0;
-  int victoryBonus = 0;
+  int bonus[game::kNumBonuses];
 
   game::Card* card;
 
@@ -98,10 +106,10 @@ game::Card* Load(const string& name) {
 
     // Load bonuses
     if (const YAML::Node* bonuses = doc.FindValue("bonuses")) {
-      SetKeyIfExists(*bonuses, "action", actionBonus);
-      SetKeyIfExists(*bonuses, "card", cardBonus); 
-      SetKeyIfExists(*bonuses, "treasure", treasureBonus);
-      SetKeyIfExists(*bonuses, "victory", victoryBonus);
+      SetKeyIfExists(*bonuses, "action", bonus[game::kActionBonus]);
+      SetKeyIfExists(*bonuses, "card", bonus[game::kCardBonus]); 
+      SetKeyIfExists(*bonuses, "treasure", bonus[game::kTreasureBonus]);
+      SetKeyIfExists(*bonuses, "victory", bonus[game::kVictoryBonus]);
     }
 
     // Load types
@@ -112,8 +120,7 @@ game::Card* Load(const string& name) {
     }
   }
 
-  card = new game::Card(parsedName, description, art, flags, cost, actionBonus, 
-                        cardBonus, treasureBonus, victoryBonus); 
+  card = new game::Card(parsedName, description, art, flags, cost, bonus); 
 
   std::cout << "Card Loaded: " << card->GetName() << std::endl;
   std::cout << "Description: " << card->GetDescription() << std::endl;
