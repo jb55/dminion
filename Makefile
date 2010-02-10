@@ -1,5 +1,5 @@
 EXEC = dminion
-CC = g++
+CC = clang++
 DEF = 
 BOOST = $(HOME)/dev/boost_1_42_0
 CFLAGS = -Wall -g $(DEF)

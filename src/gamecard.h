@@ -2,10 +2,11 @@
 #define _DMINION_GAMECARD_H_
 
 #include "types.h"
-#include <deque>
 
 namespace dminion {
 namespace game {
+
+typedef std::deque<Card*> Cards;
 
 enum BonusType {
   kActionBonus,
@@ -48,19 +49,6 @@ public:
   int GetTreasureCost() const;
   int GetCardBonus(BonusType bonusType) const;
   int GetCardTypes() const;
-};
-
-class Cards
-{
-  std::deque<Card*> cards;
-
-public:
-  Card* Pop();
-  Card* PopBottom();
-
-  void Push(Card* card);
-  void PushFront(Card* card);
-  void Shuffle();
 };
 
 } // namespace game
