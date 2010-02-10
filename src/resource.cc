@@ -13,11 +13,14 @@
 
 namespace dminion {
 namespace resource {
+namespace { 
 
-static FontManager fontManager;
-static TextureManager textureManager;
-static CardTextureManager cardTextureManager;
-static CardManager cardManager;
+FontManager fontManager;
+TextureManager textureManager;
+CardTextureManager cardTextureManager;
+CardManager cardManager;
+
+} // anonymous namespace
 
 TTF_Font* FontManager::Load(const string& name, const int& ptSize) {
   return font::Load(name, ptSize);

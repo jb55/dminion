@@ -3,8 +3,9 @@
 #include <sstream>
 
 namespace dminion {
-
-static Settings* gpSettings;
+namespace { 
+Settings* gpSettings;
+} // anonymous namespace}
 
 Settings::~Settings() {
   std::cout << "~Settings()" << std::endl;

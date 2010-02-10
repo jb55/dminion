@@ -7,13 +7,14 @@
 
 namespace dminion {
 namespace card {
+namespace {
 
 struct CardPair {
   string name;
   int val;
 };
 
-static const CardPair kCardFlagMap[] = {
+const CardPair kCardFlagMap[] = {
   { "treasure", game::Card::kTreasure },
   { "victory", game::Card::kVictory },
   { "action", game::Card::kAction },
@@ -23,12 +24,25 @@ static const CardPair kCardFlagMap[] = {
   { "defense", game::Card::kDefense }
 };
 
-static const CardPair kCardBonusMap[] = {
+const CardPair kCardBonusMap[] = {
   { "", game::kTreasureBonus }, // icon
   { "", game::kVictoryBonus }, // icon
   { "Action", game::kActionBonus },
   { "Card", game::kCardBonus }
 };
+
+template <typename T>
+inline void SetKeyIfExists(const YAML::Node& node, const string& key,
+                                  T& val, bool warnIfMissing = false,
+                                  const string& filename = "") {
+  if (const YAML::Node* subNode = node.FindValue(key)) {
+    *subNode >> val;
+  } else if (warnIfMissing) {
+    std::cout << "Warning - missing field '" << key << "' in " << filename;
+  }
+}
+
+} // anonymous namespace
 
 int GetCardFlagByName(const string& name) {
   for (size_t i = 0; i < sizeof(kCardFlagMap); ++i) {
@@ -70,17 +84,6 @@ string GetTypeString(game::Card* card) {
   }
 
   return strTypes;
-}
-
-template <typename T>
-static inline void SetKeyIfExists(const YAML::Node& node, const string& key,
-                                  T& val, bool warnIfMissing = false,
-                                  const string& filename = "") {
-  if (const YAML::Node* subNode = node.FindValue(key)) {
-    *subNode >> val;
-  } else if (warnIfMissing) {
-    std::cout << "Warning - missing field '" << key << "' in " << filename;
-  }
 }
 
 game::Card* Load(const string& name) {
