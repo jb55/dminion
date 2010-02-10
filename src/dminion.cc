@@ -5,6 +5,7 @@
 #include "resource.h"
 #include "SDL/SDL.h"
 #include "card.h"
+#include "const.h"
 #include <cmath>
 #include <iostream>
 

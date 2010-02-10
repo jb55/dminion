@@ -2,10 +2,12 @@
 #define _DMINION_GAMECARD_H_
 
 #include "types.h"
+#include <deque>
 
 namespace dminion {
 namespace game {
 
+class Card;
 typedef std::deque<Card*> Cards;
 
 enum BonusType {

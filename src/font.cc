@@ -5,9 +5,9 @@
 namespace dminion {
 namespace font {
 
-extern const string kDefaultFontDir = "/usr/share/fonts/truetype/freefont/";
-extern const string kDefaultFont = "FreeSerif.ttf";
-extern const string kDescFont = "FreeSans.ttf";
+const string kDefaultFontDir = "/usr/share/fonts/truetype/freefont/";
+const string kDefaultFont = "FreeSerif.ttf";
+const string kDescFont = "FreeSans.ttf";
 
 const string& GetDefault() {
   static const string kDefault = kDefaultFontDir + kDefaultFont;
