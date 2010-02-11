@@ -1,8 +1,8 @@
 #ifndef _DMINION_UTIL_H_
 #define _DMINION_UTIL_H_
 #include "types.h"
+#include "const.h"
 #include "font.h"
-#include <vector>
 
 struct SDL_Color;
 struct SDL_Surface;
@@ -12,9 +12,6 @@ namespace dminion {
 struct Color;
 
 namespace util {
-
-extern const Color white;
-extern const Color black;
 
 Texture       SurfaceToTexture(SDL_Surface* surface, bool needsBase=true);
 SDL_Surface*  LoadImage(const string& filename);
@@ -29,17 +26,18 @@ char*         WideToChar(const wchar_t* wide, char* ch, size_t size);
 
 unsigned int  CountBitsSet(unsigned int flags);
 
+void FormatStats(int* bonus, StatList& stats);
 bool FormatDescription(const string& description, std::vector<string>& lines,
                        size_t breakSize = 30);
 
-void DrawTextToSurface(SDL_Surface* dstSurface,
-                       const Vec2& pos,
-                       TTF_Font* font,
-                       const string& text,
-                       font::Alignment align,
-                       const Color& fgColor=black,
-                       const Color& bgColor=white,
-                       font::Quality quality=font::kBlended);
+TextureSize DrawTextToSurface(SDL_Surface* dstSurface,
+                              const Vec2& pos,
+                              TTF_Font* font,
+                              const string& text,
+                              font::Alignment align,
+                              const Color& fgColor=globals::black,
+                              const Color& bgColor=globals::white,
+                              font::Quality quality=font::kBlended);
 } // namespace util
 } // namespace dminion
 

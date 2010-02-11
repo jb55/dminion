@@ -56,7 +56,7 @@ int GetCardFlagByName(const string& name) {
 const string& GetBonusString(int bonusType) {
   for (size_t i = 0; i < sizeof(kCardBonusMap); ++i) {
     if (kCardBonusMap[i].val == bonusType) {
-      return kCardFlagMap[i].name;
+      return kCardBonusMap[i].name;
     }
   }
   return kCardBonusMap[game::kTreasureBonus].name;
@@ -95,7 +95,7 @@ game::Card* Load(const string& name) {
 
   int flags = game::Card::kNone;
   int cost = 0;
-  int bonus[game::kNumBonuses];
+  int bonus[game::kNumBonuses] = {0};
 
   game::Card* card;
 

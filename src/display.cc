@@ -4,6 +4,7 @@
 #include "gamecard.h"
 #include "font.h"
 #include "util.h"
+#include "const.h"
 #include "SDL/SDL.h"
 #include "SDL/SDL_ttf.h"
 

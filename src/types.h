@@ -8,7 +8,11 @@ typedef unsigned short uint16_t;
 #endif
 
 #include <string>
+#include <vector>
+#include "dense_pair.h"
 #include "GL/gl.h"
+
+#define foreach BOOST_FOREACH
 
 struct SDL_Surface;
 
@@ -16,6 +20,9 @@ namespace dminion {
 
 typedef std::string string;
 typedef SDL_Surface* Texture;
+typedef DensePair<int, int> TextureSize;
+typedef std::pair<string, int> Stat;
+typedef std::vector<Stat> StatList;
 
 namespace font {
 

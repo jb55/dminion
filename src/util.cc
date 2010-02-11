@@ -11,12 +11,12 @@
 namespace dminion {
 namespace util {
 
-extern const Color white(255, 255, 255);
-extern const Color black(0, 0, 0);
-
 SDL_Surface* LoadImage(const string& filename) {
   SDL_Surface* surface, *optSurface;
   surface = IMG_Load(filename.c_str());
+  if (!surface) {
+    return 0;
+  }
   bool hasAlpha = false;
 
   // Does the texture contain an alpha channel?
@@ -59,15 +59,23 @@ Texture SurfaceToTexture(SDL_Surface* surface, bool needsBase) {
   return image;
 }
 
-void FormatStats(int* bonus, std::vector<string>& lines) {
+void FormatStats(int* bonus, StatList& stats) {
   for (int i = 0; i < game::kNumBonuses; ++i) {
     int b = bonus[i];
+    int icon = game::kNumBonuses;
     if (b == 0) continue;
     std::stringstream os;
-    os << (b < 0 ? "- " : "+ ") << b << " "
-       << card::GetBonusString(i);
+    os << (b < 0 ? "- " : "+ ") << b << " ";
 
-    lines.push_back(os.str());
+    if (b == game::kCardBonus || b == game::kActionBonus) {
+      os << card::GetBonusString(i);
+      if (abs(b) > 1) os << "s";
+    }
+    else {
+      icon = b;
+    }
+
+    stats.push_back(Stat(os.str(), icon));
   }
 }
 
@@ -99,7 +107,7 @@ bool FormatDescription(const string& description, std::vector<string>& lines,
   return true;
 }
 
-void DrawTextToSurface(SDL_Surface* dstSurface,
+TextureSize DrawTextToSurface(SDL_Surface* dstSurface,
                        const Vec2& pos,
                        TTF_Font* font,
                        const string& text,
@@ -111,6 +119,8 @@ void DrawTextToSurface(SDL_Surface* dstSurface,
   SDL_Color fontBgColor;
   SDL_Rect dstRect;
   SDL_Surface* resultText;
+  int width = 0;
+  int height = 0;
 
   util::ColorToSDL(fgColor, &fontColor);
   util::ColorToSDL(bgColor, &fontBgColor);
@@ -129,10 +139,14 @@ void DrawTextToSurface(SDL_Surface* dstSurface,
     break;
   }
 
+  width = resultText->w;
+  height = resultText->h;
   util::PositionSurface(resultText, pos, dstRect, dstSurface, align);
 
   SDL_BlitSurface(resultText, NULL, dstSurface, &dstRect);
   SDL_FreeSurface(resultText);
+
+  return TextureSize(width, height);
 }
 
 void ColorToSDL(const Color& color, SDL_Color* sdlColor) {

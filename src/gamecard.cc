@@ -30,6 +30,10 @@ int Card::GetTreasureCost() const {
 int Card::GetCardBonus(BonusType bonusType) const {
   return bonus[bonusType];
 }
+  
+int* Card::GetBonuses() {
+  return bonus;
+}
 
 int Card::GetCardTypes() const {
   return types;

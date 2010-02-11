@@ -7,8 +7,10 @@
 #include "const.h"
 #include "SDL/SDL_image.h"
 #include "boost/foreach.hpp"
+#include "dense_pair.h"
 #include <iostream>
 #include <sstream>
+#include <utility>
 #include <map>
 
 namespace dminion {
@@ -35,11 +37,11 @@ Texture TextureManager::Load(const string& name, const int& unused) {
 
 Texture CardTextureManager::Load(game::Card* const& card, const int& unused) {
   static const string kCardTemplate = "card_template.png";
+  int savedStyle = 0;
   SDL_Rect dstRect;
   SDL_Surface* base;
   SDL_Surface* cardTemplate;
   TTF_Font* font;
-  std::vector<string> lines;
 
   cardTemplate = resource::GetTexture(kCardTemplate);
   
@@ -71,19 +73,57 @@ Texture CardTextureManager::Load(game::Card* const& card, const int& unused) {
                           font::kCenter, globals::black);
 
   // Card stats
+  static const int kDescStart = 275;
+  static const int kStep = 15;
+  Texture victoryTexture = 0, treasureTexture = 0;
+  int position = kDescStart;
+  StatList stats;
+
+  font = resource::GetFont(font::GetSans(), 16);
+  savedStyle = TTF_GetFontStyle(font);
+  TTF_SetFontStyle(font, TTF_STYLE_BOLD);
+  util::FormatStats(card->GetBonuses(), stats);
+
+  int i = 0;
+  foreach (Stat stat, stats) {
+    position += kStep;
+    TextureSize size;
+    size = util::DrawTextToSurface(base, Vec2(0, position), font, stat.first,
+                                   font::kCenter, globals::black);
+    int bonus = stat.second;
+    Texture texture;
+    bool hasIcon = bonus != game::kNumBonuses;
+    if (hasIcon) {
+      switch (bonus) {
+      case game::kVictoryBonus:
+        texture = victoryTexture ? victoryTexture :
+                                   resource::GetTexture("victory_bonus.png");
+        break;
+      default:
+      case game::kTreasureBonus:
+        texture = treasureTexture ? treasureTexture :
+                                    resource::GetTexture("treasure_bonus.png");
+        break;
+      }
+    }
+    i++;
+  }
+
+  TTF_SetFontStyle(font, savedStyle);
+  position += kStep;
 
   // Card description
-  lines.clear();
+  std::vector<string> lines;
   const string& description = card->GetDescription();
 
   font = resource::GetFont(font::GetSans(), 14);
-  static const int kDescStart = 290;
   bool hasLines = util::FormatDescription(card->GetDescription(), lines);
   if (hasLines) {
     int i = 0;
-    BOOST_FOREACH(string line, lines) {
-      util::DrawTextToSurface(base, Vec2(0, kDescStart + (i*15)), font, line,
-                              font::kCenter, globals::black);
+    foreach (string line, lines) {
+      position += kStep;
+      util::DrawTextToSurface(base, Vec2(0, position), font,
+                              line, font::kCenter, globals::black);
       i++;
     }
   } else {
@@ -96,7 +136,7 @@ Texture CardTextureManager::Load(game::Card* const& card, const int& unused) {
   os << card->GetTreasureCost();
 
   font = resource::GetFont(font::GetSans(), 24);
-  int savedStyle = TTF_GetFontStyle(font);
+  savedStyle = TTF_GetFontStyle(font);
   TTF_SetFontStyle(font, TTF_STYLE_BOLD);
   util::DrawTextToSurface(base, Vec2(39, 435), font, os.str(), 
                           font::kLeft, globals::black);

@@ -50,6 +50,7 @@ public:
 
   int GetTreasureCost() const;
   int GetCardBonus(BonusType bonusType) const;
+  int* GetBonuses();
   int GetCardTypes() const;
 };
 
