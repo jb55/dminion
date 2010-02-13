@@ -24,14 +24,10 @@ typedef DensePair<int, int> TextureSize;
 typedef std::pair<string, int> Stat;
 typedef std::vector<Stat> StatList;
 
-namespace font {
-
 enum Alignment {
   kLeft,
   kCenter
 };
-
-} // namespace font
 
 //
 // Vec2

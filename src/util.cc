@@ -65,7 +65,7 @@ void FormatStats(int* bonus, StatList& stats) {
     int icon = game::kNumBonuses;
     if (b == 0) continue;
     std::stringstream os;
-    os << (b < 0 ? "- " : "+ ") << b << " ";
+    os << (b < 0 ? "-" : "+") << b << " ";
 
     if (b == game::kCardBonus || b == game::kActionBonus) {
       os << card::GetBonusString(i);
@@ -107,18 +107,30 @@ bool FormatDescription(const string& description, std::vector<string>& lines,
   return true;
 }
 
-TextureSize DrawTextToSurface(SDL_Surface* dstSurface,
+void DrawToSurface(SDL_Surface* dstSurface, SDL_Surface* surface, 
+                   const Vec2& pos) {
+  SDL_Rect rect;
+  util::PositionSurface(surface, pos, rect, dstSurface);
+  SDL_BlitSurface(surface, NULL, dstSurface, &rect);
+}
+
+void DrawTextToSurface(SDL_Surface* dstSurface,
                        const Vec2& pos,
                        TTF_Font* font,
                        const string& text,
-                       font::Alignment align,
+                       Alignment align,
+                       SDL_Rect* outRect,
                        const Color& fgColor,
                        const Color& bgColor,
                        font::Quality quality) {
   SDL_Color fontColor;
   SDL_Color fontBgColor;
-  SDL_Rect dstRect;
   SDL_Surface* resultText;
+  SDL_Rect stackRect;
+  SDL_Rect* dstRect;
+
+  dstRect = outRect ? outRect : &stackRect; 
+  
   int width = 0;
   int height = 0;
 
@@ -141,12 +153,10 @@ TextureSize DrawTextToSurface(SDL_Surface* dstSurface,
 
   width = resultText->w;
   height = resultText->h;
-  util::PositionSurface(resultText, pos, dstRect, dstSurface, align);
+  util::PositionSurface(resultText, pos, *dstRect, dstSurface, align);
 
-  SDL_BlitSurface(resultText, NULL, dstSurface, &dstRect);
+  SDL_BlitSurface(resultText, NULL, dstSurface, dstRect);
   SDL_FreeSurface(resultText);
-
-  return TextureSize(width, height);
 }
 
 void ColorToSDL(const Color& color, SDL_Color* sdlColor) {
@@ -156,9 +166,9 @@ void ColorToSDL(const Color& color, SDL_Color* sdlColor) {
 }
 
 void PositionSurface(SDL_Surface* surface, const Vec2& pos, SDL_Rect& rect, 
-                     SDL_Surface* dstSurface, font::Alignment align) {
+                     SDL_Surface* dstSurface, Alignment align) {
   short x, y;
-  if (align == font::kCenter) {
+  if (align == kCenter) {
     x = static_cast<short>((static_cast<float>(dstSurface->w) / 2.0) - 
                            (static_cast<float>(surface->w) / 2.0)) + pos.x;
   } else {

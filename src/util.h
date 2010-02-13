@@ -18,7 +18,7 @@ SDL_Surface*  LoadImage(const string& filename);
 
 void          PositionSurface(SDL_Surface* surface, const Vec2& pos, 
                               SDL_Rect& rect, SDL_Surface* dstSurface, 
-                              font::Alignment align = font::kLeft);
+                              Alignment align = kLeft);
 
 void          ColorToSDL(const Color& color, SDL_Color* sdlColor);
 uint16_t*     WideToU16(const wchar_t* wide, uint16_t* u16, size_t size);
@@ -28,13 +28,17 @@ unsigned int  CountBitsSet(unsigned int flags);
 
 void FormatStats(int* bonus, StatList& stats);
 bool FormatDescription(const string& description, std::vector<string>& lines,
-                       size_t breakSize = 30);
+                       size_t breakSize);
 
-TextureSize DrawTextToSurface(SDL_Surface* dstSurface,
+void DrawToSurface(SDL_Surface* dstSurface, SDL_Surface* surface, 
+                   const Vec2& pos);
+
+void DrawTextToSurface(SDL_Surface* dstSurface,
                               const Vec2& pos,
                               TTF_Font* font,
                               const string& text,
-                              font::Alignment align,
+                              Alignment align,
+                              SDL_Rect* outRect = NULL,
                               const Color& fgColor=globals::black,
                               const Color& bgColor=globals::white,
                               font::Quality quality=font::kBlended);

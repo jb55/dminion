@@ -38,7 +38,7 @@ void Display::DrawText(const string& text, const Vec2& pos,
   TTF_Font* font;
 
   font = resource::GetFont(font::GetDefault(), ptSize);
-  util::DrawTextToSurface(screen, pos, font, text, font::kLeft, color);
+  util::DrawTextToSurface(screen, pos, font, text, kLeft, NULL, color);
 }
 
 void Display::DrawCard(game::Card* card, const Vec2& pos) {

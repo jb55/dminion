@@ -11,8 +11,8 @@ class Card;
 typedef std::deque<Card*> Cards;
 
 enum BonusType {
-  kActionBonus,
   kCardBonus,
+  kActionBonus,
   kTreasureBonus,
   kVictoryBonus,
   kNumBonuses

@@ -27,8 +27,8 @@ const CardPair kCardFlagMap[] = {
 const CardPair kCardBonusMap[] = {
   { "", game::kTreasureBonus }, // icon
   { "", game::kVictoryBonus }, // icon
-  { "Action", game::kActionBonus },
-  { "Card", game::kCardBonus }
+  { "Card", game::kCardBonus },
+  { "Action", game::kActionBonus }
 };
 
 template <typename T>
