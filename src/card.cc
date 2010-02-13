@@ -18,7 +18,7 @@ struct CardPair {
   int val;
 };
 
-const CardPair kCardFlagMap[] = {
+const CardPair kCardFlagList[] = {
   { "treasure", game::Card::kTreasure },
   { "victory", game::Card::kVictory },
   { "action", game::Card::kAction },
@@ -28,11 +28,18 @@ const CardPair kCardFlagMap[] = {
   { "defense", game::Card::kDefense }
 };
 
-const CardPair kCardBonusMap[] = {
-  { "", game::kTreasureBonus }, // icon
-  { "", game::kVictoryBonus }, // icon
-  { "Card", game::kCardBonus },
-  { "Action", game::kActionBonus }
+const string kBonusStrings[] = {
+  "Card",
+  "Action",
+  "", 
+  ""
+};
+
+const string kBonusTextureStrings[] = {
+  "card_bonus.png",
+  "action_bonus.png",
+  "treasure_bonus.png",
+  "victory_bonus.png"
 };
 
 template <typename T>
@@ -49,21 +56,20 @@ inline void SetKeyIfExists(const YAML::Node& node, const string& key,
 } // anonymous namespace
 
 int GetCardFlagByName(const string& name) {
-  for (size_t i = 0; i < sizeof(kCardFlagMap); ++i) {
-    if (kCardFlagMap[i].name == name) {
-      return kCardFlagMap[i].val;
+  for (size_t i = 0; i < sizeof(kCardFlagList); ++i) {
+    if (kCardFlagList[i].name == name) {
+      return kCardFlagList[i].val;
     }
   }
   return game::Card::kNone;
 }
 
+const string& GetBonusTextureString(int bonusType) {
+  return kBonusTextureStrings[bonusType];
+}
+
 const string& GetBonusString(int bonusType) {
-  for (size_t i = 0; i < sizeof(kCardBonusMap); ++i) {
-    if (kCardBonusMap[i].val == bonusType) {
-      return kCardBonusMap[i].name;
-    }
-  }
-  return kCardBonusMap[game::kTreasureBonus].name;
+  return kBonusStrings[bonusType];
 }
 
 void LoadAll() {
@@ -130,7 +136,6 @@ Texture LoadTexture(game::Card* card) {
   // Card stats
   static const int kDescStart = 260;
   static const int kStep = 17;
-  Texture victoryTexture = 0, treasureTexture = 0;
   int position = kDescStart;
   StatList stats;
 
@@ -150,17 +155,8 @@ Texture LoadTexture(game::Card* card) {
     bool hasIcon = bonus != game::kNumBonuses;
 
     if (hasIcon) {
-      switch (bonus) {
-      case game::kVictoryBonus:
-        texture = victoryTexture ? victoryTexture :
-                                   resource::GetTexture("victory_bonus.png");
-        break;
-      default:
-      case game::kTreasureBonus:
-        texture = treasureTexture ? treasureTexture :
-                                    resource::GetTexture("treasure_bonus.png");
-        break;
-      }
+      const string& textureName = card::GetBonusTextureString(bonus);
+      texture = resource::GetTexture(textureName);
 
       int x = dstRect.x + dstRect.w;
       int y = dstRect.y + 3;

@@ -72,7 +72,7 @@ void FormatStats(int* bonus, StatList& stats) {
       if (abs(b) > 1) os << "s";
     }
     else {
-      icon = b;
+      icon = i;
     }
 
     stats.push_back(Stat(os.str(), icon));
