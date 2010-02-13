@@ -15,6 +15,7 @@ game::Card* Load(const string& name);
 int GetFlagByName(const string& name);
 int* GetBonusFieldByName(const string& name, game::Card* card);
 const string& GetBonusString(int type);
+Texture LoadTexture(game::Card* card);
 void LoadAll();
 
 string GetTypeString(game::Card* card);

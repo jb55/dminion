@@ -67,7 +67,7 @@ void FormatStats(int* bonus, StatList& stats) {
     std::stringstream os;
     os << (b < 0 ? "-" : "+") << b << " ";
 
-    if (b == game::kCardBonus || b == game::kActionBonus) {
+    if (i == game::kCardBonus || i == game::kActionBonus) {
       os << card::GetBonusString(i);
       if (abs(b) > 1) os << "s";
     }
