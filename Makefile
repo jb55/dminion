@@ -18,6 +18,7 @@ OBJS= \
   $(OBJDIR)/dminion.o \
   $(OBJDIR)/font.o \
   $(OBJDIR)/util.o \
+  $(OBJDIR)/log.o \
   $(OBJDIR)/card.o \
   $(OBJDIR)/gamecard.o \
   $(OBJDIR)/context.o \
@@ -32,6 +33,7 @@ DBGOBJS= \
   $(OBJDIR)/dminion.dbg.o \
   $(OBJDIR)/font.dbg.o \
   $(OBJDIR)/util.dbg.o \
+  $(OBJDIR)/log.dbg.o \
   $(OBJDIR)/card.dbg.o \
   $(OBJDIR)/gamecard.dbg.o \
   $(OBJDIR)/context.dbg.o \

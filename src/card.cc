@@ -7,6 +7,7 @@
 #include "dense_pair.h"
 #include "boost/foreach.hpp"
 #include "resource.h"
+#include "log.h"
 #include "yaml-cpp/yaml.h"
 
 namespace dminion {
@@ -44,12 +45,12 @@ const string kBonusTextureStrings[] = {
 
 template <typename T>
 inline void SetKeyIfExists(const YAML::Node& node, const string& key,
-                                  T& val, bool warnIfMissing = false,
-                                  const string& filename = "") {
+                           T& val, bool warnIfMissing = false,
+                           const string& filename = "") {
   if (const YAML::Node* subNode = node.FindValue(key)) {
     *subNode >> val;
   } else if (warnIfMissing) {
-    std::cout << "Warning - missing field '" << key << "' in " << filename;
+    WARN2("missing field '%1%' in %2%", key % filename);
   }
 }
 
@@ -120,12 +121,12 @@ Texture LoadTexture(game::Card* card) {
   util::PositionSurface(cardArt, Vec2(0, 60), dstRect, base, kCenter);
 
   if (SDL_BlitSurface(cardArt, NULL, base, &dstRect) < 0) {
-    std::cout << "Error blitting card art to base" << std::endl;
+    WARN("Error blitting card art to base");
   }
 
   // Card template
   if (SDL_BlitSurface(cardTemplate, NULL, base, NULL) < 0) {
-    std::cout << "Error blitting card template to base" << std::endl;
+    WARN("Error blitting card template to base");
   }
 
   // Card name
@@ -199,7 +200,7 @@ Texture LoadTexture(game::Card* card) {
   TTF_SetFontStyle(font, savedStyle);
 
   // Card type
-  unsigned int numTypes = util::CountBitsSet(card->GetCardTypes());
+  unsigned numTypes = util::CountBitsSet(card->GetCardTypes());
   font = resource::GetFont(font::GetDefault(), 24 - numTypes * 2);
   util::DrawTextToSurface(base, Vec2(0, 435), font, GetTypeString(card), 
                           kCenter);
@@ -246,8 +247,8 @@ game::Card* Load(const string& name) {
 
   card = new game::Card(parsedName, description, art, flags, cost, bonus); 
 
-  std::cout << "Card Loaded: " << card->GetName() << std::endl;
-  std::cout << "Description: " << card->GetDescription() << std::endl;
+  DEV2("Card Loaded: %1%", card->GetName());
+  DEV2("Description: %1%", card->GetDescription());
 
   return card;
 }

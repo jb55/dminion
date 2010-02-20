@@ -1,5 +1,6 @@
 #include "font.h"
 #include "util.h"
+#include "log.h"
 #include <iostream>
 
 namespace dminion {
@@ -23,8 +24,7 @@ TTF_Font* Load(const string& file, int ptSize) {
   TTF_Font* tmpFont;
   tmpFont = TTF_OpenFont(file.c_str(), ptSize);
   if (tmpFont == NULL) {
-    std::cout << "Unable to load font: " 
-              << file << " " << TTF_GetError() << std::endl;
+    ERROR2("Unable to load font: %s %s", file % TTF_GetError());
   }
 
   return tmpFont;

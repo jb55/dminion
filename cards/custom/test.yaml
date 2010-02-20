@@ -2,7 +2,6 @@ name: Spy
 cost: 4
 art: test.png
 bonuses:
-  treasure: 1
   card: 1
   action: 1
 types:

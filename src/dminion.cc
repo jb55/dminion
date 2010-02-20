@@ -6,6 +6,7 @@
 #include "SDL/SDL.h"
 #include "card.h"
 #include "const.h"
+#include "log.h"
 #include <cmath>
 #include <iostream>
 
@@ -53,8 +54,7 @@ void Dminion::Run() {
 
     switch (event.type) {
     case SDL_KEYDOWN:
-      std::cout << "The " << SDL_GetKeyName(event.key.keysym.sym)
-                << " key was pressed!" << std::endl;
+      DEV2("The %1% key was pressed!", SDL_GetKeyName(event.key.keysym.sym));
       switch (event.key.keysym.sym) {
       case SDLK_ESCAPE:
         done = true;

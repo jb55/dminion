@@ -1,4 +1,5 @@
 #include "settings.h"
+#include "log.h"
 #include <iostream>
 #include <sstream>
 
@@ -8,7 +9,7 @@ Settings* gpSettings;
 } // anonymous namespace}
 
 Settings::~Settings() {
-  std::cout << "~Settings()" << std::endl;
+  DEV("~Settings()");
 }
 
 template <typename T>

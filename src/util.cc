@@ -53,9 +53,9 @@ Texture SurfaceToTexture(SDL_Surface* surface, bool needsBase) {
 
   glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, image->w, image->h, 0, GL_RGBA,
                GL_UNSIGNED_BYTE, image->pixels);
+  */
 
   SDL_FreeSurface(image);
-  */
   return image;
 }
 
