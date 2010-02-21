@@ -5,7 +5,7 @@ BOOST = $(HOME)/dev/boost_1_42_0
 CFLAGS = -Wall -g $(DEF)
 OPT = -O2
 INCLUDES = -ISDL -I$(BOOST)
-LIBS = -lSDL -lSDL_ttf -lSDL_image -lyaml-cpp
+LIBS = -lSDL -lSDL_ttf -lSDL_image -lyaml-cpp -lGL
 OBJDIR = obj
 SRCDIR = src
 

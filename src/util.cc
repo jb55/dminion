@@ -6,6 +6,8 @@
 #include "SDL/SDL_image.h"
 #include "types.h" 
 #include "gamecard.h" 
+#include <GL/gl.h>
+#include "log.h" 
 #include "card.h" 
 
 namespace dminion {
@@ -32,10 +34,19 @@ SDL_Surface* LoadImage(const string& filename) {
 
 Texture SurfaceToTexture(SDL_Surface* surface, bool needsBase) {
   const int w = surface->w;
-  const int h = surface->w;
+  const int h = surface->h;
 
   SDL_Surface* image;
 
+  if (h & (h - 1)) {
+    WARN2("SurfaceToTexture: surface height (%d) is not power of 2", h);
+  }
+  
+  if (w & (w - 1)) {
+    WARN2("SurfaceToTexture: surface width (%d) is not power of 2", w);
+  }
+
+  // TODO: simply set the format instead of reblitting everything
   if (needsBase) {
     SDL_PixelFormat* fmt = surface->format;
     image = SDL_CreateRGBSurface(SDL_SWSURFACE, w, h, 32,
@@ -46,14 +57,12 @@ Texture SurfaceToTexture(SDL_Surface* surface, bool needsBase) {
     image = surface;
   }
 
-  /*
   GLuint id;
   glGenTextures(1, &id);
   glBindTexture(GL_TEXTURE_2D, id);
 
   glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, image->w, image->h, 0, GL_RGBA,
                GL_UNSIGNED_BYTE, image->pixels);
-  */
 
   SDL_FreeSurface(image);
   return image;

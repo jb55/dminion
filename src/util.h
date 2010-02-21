@@ -34,14 +34,14 @@ void DrawToSurface(SDL_Surface* dstSurface, SDL_Surface* surface,
                    const Vec2& pos);
 
 void DrawTextToSurface(SDL_Surface* dstSurface,
-                              const Vec2& pos,
-                              TTF_Font* font,
-                              const string& text,
-                              Alignment align,
-                              SDL_Rect* outRect = NULL,
-                              const Color& fgColor=globals::black,
-                              const Color& bgColor=globals::white,
-                              font::Quality quality=font::kBlended);
+                       const Vec2& pos,
+                       TTF_Font* font,
+                       const string& text,
+                       Alignment align,
+                       SDL_Rect* outRect = NULL,
+                       const Color& fgColor=globals::black,
+                       const Color& bgColor=globals::white,
+                       font::Quality quality=font::kBlended);
 } // namespace util
 } // namespace dminion
 
