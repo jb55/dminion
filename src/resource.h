@@ -1,12 +1,11 @@
 #ifndef _DMINION_RESOURCE_
 #define _DMINION_RESOURCE_
-#include "types.h"
+#include "common.h"
+#include "card.h"
 #include "SDL/SDL_ttf.h"
 #include <map>
 
 namespace dminion {
-namespace game { class Card; }
-
 namespace resource {
 
 template <typename K, typename V, typename D, typename K2=int>
@@ -61,16 +60,16 @@ public:
 };
 
 class CardTextureManager : 
-      public Manager<game::Card*, Texture, CardTextureManager>
+      public Manager<Card*, Texture, CardTextureManager>
 {
 public:
-  Texture Load(game::Card* const& card, const int& unused=0);
+  Texture Load(Card* const& card, const int& unused=0);
 };
 
-class CardManager : public Manager<string, game::Card*, CardManager>
+class CardManager : public Manager<string, Card*, CardManager>
 {
 public:
-  game::Card* Load(const string& key, const int& unused);
+  Card* Load(const string& key, const int& unused);
 };
 
 class FontManager : public Manager<string, TTF_Font*, FontManager>
@@ -81,9 +80,9 @@ public:
 
 TTF_Font* GetFont(const string& name, int ptSize);
 Texture GetTexture(const string& name);
-Texture GetCardTexture(game::Card* card);
-game::Card* GetCard(const string& name);
-void AddCard(game::Card* card);
+Texture GetCardTexture(Card* card);
+Card* GetCard(const string& name);
+void AddCard(Card* card);
 
 } // namespace resource
 } // namespace dminion

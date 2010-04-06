@@ -1,8 +1,7 @@
 #include <fstream>
 #include <iostream>
-#include "types.h"
+#include "common.h"
 #include "util.h"
-#include "gamecard.h"
 #include "card.h"
 #include "dense_pair.h"
 #include "boost/foreach.hpp"
@@ -20,13 +19,13 @@ struct CardPair {
 };
 
 const CardPair kCardFlagList[] = {
-  { "treasure", game::Card::kTreasure },
-  { "victory", game::Card::kVictory },
-  { "action", game::Card::kAction },
-  { "attack", game::Card::kAttack },
-  { "curse", game::Card::kCurse },
-  { "duration", game::Card::kDuration },
-  { "defense", game::Card::kDefense }
+  { "treasure", Card::kTreasure },
+  { "victory", Card::kVictory },
+  { "action", Card::kAction },
+  { "attack", Card::kAttack },
+  { "curse", Card::kCurse },
+  { "duration", Card::kDuration },
+  { "defense", Card::kDefense }
 };
 
 const string kBonusStrings[] = {
@@ -62,7 +61,7 @@ int GetCardFlagByName(const string& name) {
       return kCardFlagList[i].val;
     }
   }
-  return game::Card::kNone;
+  return Card::kNone;
 }
 
 const string& GetBonusTextureString(int bonusType) {
@@ -77,17 +76,17 @@ void LoadAll() {
   resource::GetCard("custom/test");
 }
 
-string GetTypeString(game::Card* card) {
+string GetTypeString(Card* card) {
   string strTypes;
   int types = card->GetCardTypes();
   
-  if (types & game::Card::kTreasure)  strTypes.append("Treasure - ");
-  if (types & game::Card::kVictory)   strTypes.append("Victory - ");
-  if (types & game::Card::kAction)    strTypes.append("Action - ");
-  if (types & game::Card::kDefense)   strTypes.append("Defense - ");
-  if (types & game::Card::kAttack)    strTypes.append("Attack - ");
-  if (types & game::Card::kCurse)     strTypes.append("Curse - ");
-  if (types & game::Card::kDuration)  strTypes.append("Curse - ");
+  if (types & Card::kTreasure)  strTypes.append("Treasure - ");
+  if (types & Card::kVictory)   strTypes.append("Victory - ");
+  if (types & Card::kAction)    strTypes.append("Action - ");
+  if (types & Card::kDefense)   strTypes.append("Defense - ");
+  if (types & Card::kAttack)    strTypes.append("Attack - ");
+  if (types & Card::kCurse)     strTypes.append("Curse - ");
+  if (types & Card::kDuration)  strTypes.append("Curse - ");
 
   size_t size = 0;
   if ((size = strTypes.size()) > 2) {
@@ -97,7 +96,7 @@ string GetTypeString(game::Card* card) {
   return strTypes;
 }
 
-Texture LoadTexture(game::Card* card) {
+Texture LoadTexture(Card* card) {
   static const string kCardTemplate = "card_template.png";
   int savedStyle = 0;
   SDL_Rect dstRect;
@@ -153,7 +152,7 @@ Texture LoadTexture(game::Card* card) {
                             kCenter, &dstRect);
     int bonus = stat.second;
     SDL_Surface* texture;
-    bool hasIcon = bonus != game::kNumBonuses;
+    bool hasIcon = bonus != card::kNumBonuses;
 
     if (hasIcon) {
       const string& textureName = card::GetBonusTextureString(bonus);
@@ -208,18 +207,18 @@ Texture LoadTexture(game::Card* card) {
   return base;
 }
 
-game::Card* Load(const string& name) {
+Card* Load(const string& name) {
   string parsedName, description, art;
 
   std::ifstream fin(name.c_str());
   YAML::Parser parser(fin);
   YAML::Node doc;
 
-  int flags = game::Card::kNone;
+  int flags = Card::kNone;
   int cost = 0;
-  int bonus[game::kNumBonuses] = {0};
+  int bonus[card::kNumBonuses] = {0};
 
-  game::Card* card;
+  Card* card;
 
   while (parser.GetNextDocument(doc)) {
     string val;
@@ -231,10 +230,10 @@ game::Card* Load(const string& name) {
 
     // Load bonuses
     if (const YAML::Node* bonuses = doc.FindValue("bonuses")) {
-      SetKeyIfExists(*bonuses, "action", bonus[game::kActionBonus]);
-      SetKeyIfExists(*bonuses, "card", bonus[game::kCardBonus]); 
-      SetKeyIfExists(*bonuses, "treasure", bonus[game::kTreasureBonus]);
-      SetKeyIfExists(*bonuses, "victory", bonus[game::kVictoryBonus]);
+      SetKeyIfExists(*bonuses, "action", bonus[card::kActionBonus]);
+      SetKeyIfExists(*bonuses, "card", bonus[card::kCardBonus]); 
+      SetKeyIfExists(*bonuses, "treasure", bonus[card::kTreasureBonus]);
+      SetKeyIfExists(*bonuses, "victory", bonus[card::kVictoryBonus]);
     }
 
     // Load types
@@ -245,7 +244,7 @@ game::Card* Load(const string& name) {
     }
   }
 
-  card = new game::Card(parsedName, description, art, flags, cost, bonus); 
+  card = new Card(parsedName, description, art, flags, cost, bonus); 
 
   DEV2("Card Loaded: %1%", card->GetName());
   DEV2("Description: %1%", card->GetDescription());
@@ -254,4 +253,41 @@ game::Card* Load(const string& name) {
 }
 
 } // namespace card
+
+Card::Card(const string& _name, const string& _description, const string& _art,
+           int _types, int _cost, int* bonuses) : name(_name), 
+           description(_description), art(_art), types(_types), cost(_cost) {
+  for (int i = 0; i < card::kNumBonuses; ++i) {
+    bonus[i] = *bonuses++;
+  }
+}
+
+const string& Card::GetName() const {
+  return name;
+}
+
+const string& Card::GetDescription() const {
+  return description;
+}
+
+const string& Card::GetArt() const {
+  return art;
+}
+
+int Card::GetTreasureCost() const {
+  return cost;
+}
+  
+int Card::GetCardBonus(card::BonusType bonusType) const {
+  return bonus[bonusType];
+}
+  
+int* Card::GetBonuses() {
+  return bonus;
+}
+
+int Card::GetCardTypes() const {
+  return types;
+}
+
 } // namespace dminion

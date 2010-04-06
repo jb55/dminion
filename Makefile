@@ -20,7 +20,6 @@ OBJS= \
   $(OBJDIR)/util.o \
   $(OBJDIR)/log.o \
   $(OBJDIR)/card.o \
-  $(OBJDIR)/gamecard.o \
   $(OBJDIR)/context.o \
   $(OBJDIR)/resource.o
 
@@ -35,7 +34,6 @@ DBGOBJS= \
   $(OBJDIR)/util.dbg.o \
   $(OBJDIR)/log.dbg.o \
   $(OBJDIR)/card.dbg.o \
-  $(OBJDIR)/gamecard.dbg.o \
   $(OBJDIR)/context.dbg.o \
   $(OBJDIR)/resource.dbg.o
 

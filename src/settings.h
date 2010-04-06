@@ -2,7 +2,7 @@
 #define _DMINION_SETTINGS_H_
 
 #include <map>
-#include "types.h"
+#include "common.h"
 #include "const.h"
 
 namespace dminion {

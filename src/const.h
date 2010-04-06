@@ -1,7 +1,7 @@
 #ifndef _DMINION_CONST_H_
 #define _DMINION_CONST_H_
 
-#include "types.h"
+#include "common.h"
 
 namespace dminion {
 namespace globals {

@@ -41,7 +41,7 @@ void Dminion::Run() {
   Init();
 
   display->DrawText("Dminion: Dominion Card Game", Vec2(20, 20));
-  game::Card* spy = resource::GetCard("custom/test");
+  Card* spy = resource::GetCard("custom/test");
 
   static const int kTop = 230;
   for (int i = 0; i < 5; ++i) {

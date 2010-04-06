@@ -1,11 +1,10 @@
 #ifndef DMINION_PLAYER_H_
 #define DMINION_PLAYER_H_
 
-#include "gamecard.h"
+#include "card.h"
 #include <vector>
 
 namespace dminion {
-namespace game {
 
 class Player
 {
@@ -18,7 +17,6 @@ public:
   
 };
 
-} // namespace game
 } // namespace dminion
 
 #endif // DMINION_PLAYER_H_

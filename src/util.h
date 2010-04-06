@@ -1,6 +1,6 @@
 #ifndef _DMINION_UTIL_H_
 #define _DMINION_UTIL_H_
-#include "types.h"
+#include "common.h"
 #include "const.h"
 #include "font.h"
 

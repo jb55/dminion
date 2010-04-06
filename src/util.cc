@@ -4,8 +4,7 @@
 #include "util.h"
 #include "SDL/SDL.h"
 #include "SDL/SDL_image.h"
-#include "types.h" 
-#include "gamecard.h" 
+#include "common.h" 
 #include <GL/gl.h>
 #include "log.h" 
 #include "card.h" 
@@ -69,14 +68,14 @@ Texture SurfaceToTexture(SDL_Surface* surface, bool needsBase) {
 }
 
 void FormatStats(int* bonus, StatList& stats) {
-  for (int i = 0; i < game::kNumBonuses; ++i) {
+  for (int i = 0; i < card::kNumBonuses; ++i) {
     int b = bonus[i];
-    int icon = game::kNumBonuses;
+    int icon = card::kNumBonuses;
     if (b == 0) continue;
     std::stringstream os;
     os << (b < 0 ? "-" : "+") << b << " ";
 
-    if (i == game::kCardBonus || i == game::kActionBonus) {
+    if (i == card::kCardBonus || i == card::kActionBonus) {
       os << card::GetBonusString(i);
       if (abs(b) > 1) os << "s";
     }

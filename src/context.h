@@ -6,7 +6,6 @@
 #include <vector>
 
 namespace dminion {
-namespace game {
 
 enum State {
   kDrawHandState,
@@ -34,7 +33,6 @@ public:
   Player* GetPlayer(int num);
 };
 
-} // namespace game
 } // namespace dminion
 
 #endif // _DMINION_CONTEXT_H_

@@ -1,9 +1,8 @@
 #include "resource.h"
-#include "types.h"
+#include "common.h"
 #include "font.h"
 #include "util.h"
 #include "card.h"
-#include "gamecard.h"
 #include <map>
 
 namespace dminion {
@@ -28,11 +27,11 @@ Texture TextureManager::Load(const string& name, const int& unused) {
   return surface;
 }
 
-Texture CardTextureManager::Load(game::Card* const& card, const int& unused) {
+Texture CardTextureManager::Load(Card* const& card, const int& unused) {
   return card::LoadTexture(card);
 }
 
-game::Card* CardManager::Load(const string& key, const int& unused) {
+Card* CardManager::Load(const string& key, const int& unused) {
   static const string kCardDir = "cards/";
   static const string kCardExt = ".yaml";
   return card::Load(kCardDir + key + kCardExt);
@@ -42,7 +41,7 @@ TTF_Font* GetFont(const string& name, int ptSize) {
   return fontManager.Get(name, ptSize);
 }
 
-Texture GetCardTexture(game::Card* card) {
+Texture GetCardTexture(Card* card) {
   return cardTextureManager.Get(card);
 }
 
@@ -51,11 +50,11 @@ Texture GetTexture(const string& name) {
   return textureManager.Get(kTextureDir + name);
 }
 
-void AddCard(game::Card* card) {
+void AddCard(Card* card) {
   cardManager.Add(card->GetName(), card);
 }
 
-game::Card* GetCard(const string& name) {
+Card* GetCard(const string& name) {
   return cardManager.Get(name);
 }
 

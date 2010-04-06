@@ -1,7 +1,7 @@
 #ifndef _DMINION_LOG_H_
 #define _DMINION_LOG_H_
 
-#include "types.h"
+#include "common.h"
 #include <boost/format.hpp>
 
 #define WARN(x) do { log::Warning((x)); } while(0)

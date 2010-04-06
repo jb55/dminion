@@ -1,7 +1,6 @@
 #include "display.h"
 #include "settings.h"
 #include "resource.h"
-#include "gamecard.h"
 #include "font.h"
 #include "util.h"
 #include "const.h"
@@ -41,7 +40,7 @@ void Display::DrawText(const string& text, const Vec2& pos,
   util::DrawTextToSurface(screen, pos, font, text, kLeft, NULL, color);
 }
 
-void Display::DrawCard(game::Card* card, const Vec2& pos) {
+void Display::DrawCard(Card* card, const Vec2& pos) {
   Texture cardTexture = resource::GetCardTexture(card);  
 
   SDL_Rect dstRect;
